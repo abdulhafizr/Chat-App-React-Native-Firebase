@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, TouchableOpacity } from 'react-native'
-import { ICGoogle, ICUser, ICUserPlus, ICEdit, ICSignout } from '../../../assets'
+import { ICGoogle, ICUser, ICUserPlus, ICEdit, ICSignout, ICBackWhite } from '../../../assets'
 import BTNIcon from './BTNIcon'
 
 const Icon = ({ type, onPress, onLongPress, label, isFocused}) => {
@@ -19,6 +19,8 @@ const Icon = ({ type, onPress, onLongPress, label, isFocused}) => {
                 return <ICEdit />
             case 'signout-ic':
                 return <ICSignout />
+            case 'back-arrow-ic':
+                return <ICBackWhite />
             default :
                 return <ICUser />
         }

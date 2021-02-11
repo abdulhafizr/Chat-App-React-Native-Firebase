@@ -8,7 +8,9 @@ import BTNContactActive from './BTN_Contact_Active.svg';
 import BTNProfile from './BTN_Profile.svg';
 import BTNProfileActive from './BTN_Profile_Active.svg';
 import ICEdit from './Edit.svg';
+import ICEditProfile from './EditProfile.svg';
 import ICSignout from './Signout.svg';
+import ICBackWhite from './BackWhite.svg';
 
 export { 
     ICGoogle, 
@@ -22,4 +24,6 @@ export {
     ICUserPlus,
     ICEdit,
     ICSignout,
+    ICBackWhite,
+    ICEditProfile,
 };

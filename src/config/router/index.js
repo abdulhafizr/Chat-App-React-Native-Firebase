@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { GetStarted, Chat, Contact, Profile } from '../../pages';
+import { GetStarted, Chat, Contact, Profile, EditProfile } from '../../pages';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomTabNavigatorTheme } from './BottomTabNavigationTheme';
 
@@ -10,6 +10,7 @@ export const Router = () => {
         <Navigator initialRouteName="GetStarted">
             <Screen name="GetStarted" component={GetStarted} options={{headerShown: false}} />
             <Screen name="MainApp" component={MainApp} options={{headerShown: false}} />
+            <Screen name="EditProfile" component={EditProfile} options={{headerShown: false}} />
         </Navigator>
     )
 }
