@@ -1,4 +1,6 @@
 import GetStarted from './GetStarted';
-import MainApp from './MainApp';
+import Chat from './Chat';
+import Contact from './Contact';
+import Profile from './Profile';
 
-export { GetStarted, MainApp };
+export { GetStarted, Chat, Contact, Profile };

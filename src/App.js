@@ -1,11 +1,14 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
-import { MainApp } from './pages';
+import 'react-native-gesture-handler';
+import { NavigationContainer } from '@react-navigation/native';
+import { Router } from './config';
 
 const App = () => {
-  return <MainApp />;
+  return (
+    <NavigationContainer>
+      <Router />
+    </NavigationContainer>
+  )
 }
 
 export default App;
-
-const styles = StyleSheet.create({});

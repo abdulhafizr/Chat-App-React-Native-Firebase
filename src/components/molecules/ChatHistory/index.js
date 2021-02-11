@@ -1,11 +1,11 @@
 import React from 'react';
-import { Text, View, Image } from 'react-native';
+import { Text, View, Image, TouchableOpacity } from 'react-native';
 import { Avatar } from '../../../assets';
 import { styles } from './styles';
 
-const ChatHistory = () => {
+const ChatHistory = ({onPress}) => {
     return (
-        <View style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={onPress}>
             <View style={styles.profile}>
                 <Image source={Avatar} style={styles.avatar} />
                 <View style={styles.caption}>
@@ -18,7 +18,7 @@ const ChatHistory = () => {
                     Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the .....
                 </Text>
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 
