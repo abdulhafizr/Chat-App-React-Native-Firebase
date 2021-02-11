@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
         paddingVertical: 50,
         backgroundColor: colors.background.secondary,
         width: '100%',
-        elevation: 1,
+        elevation: 2,
     },
     title: {
         textAlign: 'center',

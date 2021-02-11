@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import { GetStarted } from './pages';
+import { MainApp } from './pages';
 
 const App = () => {
-  return <GetStarted />;
+  return <MainApp />;
 }
 
 export default App;

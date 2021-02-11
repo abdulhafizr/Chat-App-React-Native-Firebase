@@ -21,5 +21,8 @@ export const colors = {
         white2: baseColors.white2,
         white3: baseColors.white3,
         black: baseColors.black,
+    },
+    border: {
+        primary: baseColors.secondary,
     }
 }

@@ -1,12 +1,14 @@
 import React from 'react'
 import { StyleSheet, Text, TouchableOpacity } from 'react-native'
-import { ICGoogle } from '../../../assets'
+import { ICGoogle, ICUser } from '../../../assets'
 
 const Icon = ({ type, onPress, style}) => {
     const IconChild = () => {
         switch(type) {
             case 'google-ic':
                 return <ICGoogle />
+            case 'user-ic':
+                return <ICUser />
             
             default :
                 return <ICGoogle />
