@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors } from '../../../utils';
+import { colors, fonts } from '../../../utils';
 
 export const styles = StyleSheet.create({
     container: {
@@ -20,19 +20,25 @@ export const styles = StyleSheet.create({
         borderRadius: (48 / 2),
         marginRight: 15,
     },
+    caption: {
+        flex: 1,
+    },
     name: {
         fontSize: 14,
         color: colors.text.white,
+        fontFamily: fonts.primary[400],
     },
     job: {
         fontSize: 12,
         color: colors.text.white3,
+        fontFamily: fonts.primary[300],
     },
     messageWrapper: {
         marginTop: 5,
     },
     message: {
         fontSize: 12,
-        color: colors.text.white2
+        color: colors.text.white2,
+        fontFamily: fonts.primary[400],
     },
 })

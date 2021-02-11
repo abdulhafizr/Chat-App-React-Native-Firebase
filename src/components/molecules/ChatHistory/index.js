@@ -8,7 +8,7 @@ const ChatHistory = () => {
         <View style={styles.container}>
             <View style={styles.profile}>
                 <Image source={Avatar} style={styles.avatar} />
-                <View>
+                <View style={styles.caption}>
                     <Text style={styles.name}>Abdul Hafiz Ramadan</Text>
                     <Text style={styles.job}>Programmer</Text>
                 </View>

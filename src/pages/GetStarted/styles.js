@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors } from '../../utils/colors';
+import { fonts, colors } from '../../utils';
 
 export const styles = StyleSheet.create({
     container: {
@@ -19,6 +19,7 @@ export const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 18,
         color: colors.text.white1,
+        fontFamily: fonts.primary[600],
     },
     icWrapper: {
         marginTop: 15,
