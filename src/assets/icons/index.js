@@ -1,5 +1,6 @@
 import ICGoogle from './Google.svg';
 import ICUser from './User.svg';
+import ICUserPlus from './UserPlus.svg';
 import BTNMessage from './BTN_Messages.svg';
 import BTNMessageActive from './BTN_Messages_Active.svg';
 import BTNContact from './BTN_Contact.svg';
@@ -15,5 +16,6 @@ export {
     BTNContact, 
     BTNContactActive, 
     BTNProfile, 
-    BTNProfileActive 
+    BTNProfileActive,
+    ICUserPlus,
 };

@@ -1,3 +1,4 @@
 import ChatHistory from './ChatHistory';
+import SearchInput from './SearchInput';
 
-export { ChatHistory };
+export { ChatHistory, SearchInput };

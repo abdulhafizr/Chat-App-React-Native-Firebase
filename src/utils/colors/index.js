@@ -16,6 +16,8 @@ export const colors = {
         blue: baseColors.blue1,
     },
     text: {
+        primary: baseColors.primary,
+        secondary: baseColors.secondary,
         white: baseColors.white,
         white1: baseColors.white1,
         white2: baseColors.white2,

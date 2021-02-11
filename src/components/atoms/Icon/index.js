@@ -1,6 +1,6 @@
 import React from 'react'
-import { StyleSheet, Text, TouchableOpacity } from 'react-native'
-import { BTNContact, BTNMessage, ICGoogle, ICUser } from '../../../assets'
+import { StyleSheet, TouchableOpacity } from 'react-native'
+import { ICGoogle, ICUser, ICUserPlus } from '../../../assets'
 import BTNIcon from './BTNIcon'
 
 const Icon = ({ type, onPress, onLongPress, label, isFocused}) => {
@@ -13,8 +13,10 @@ const Icon = ({ type, onPress, onLongPress, label, isFocused}) => {
                 return <ICGoogle />
             case 'user-ic':
                 return <ICUser />
+            case 'user-plus-ic':
+                return <ICUserPlus />
             default :
-                return <ICGoogle />
+                return <ICUser />
         }
     }
     return (
