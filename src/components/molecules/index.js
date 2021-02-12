@@ -6,6 +6,7 @@ import AvatarEdit from './AvatarEdit';
 import InputChat from './InputChat';
 import HeaderChat from './HeaderChat';
 import BubbleChat from './BubbleChat';
+import UserItem from './UserItem';
 
 export { 
     ChatHistory, 
@@ -16,4 +17,5 @@ export {
     InputChat,
     HeaderChat,
     BubbleChat,
+    UserItem
 };

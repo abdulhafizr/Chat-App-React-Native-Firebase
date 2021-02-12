@@ -11,7 +11,7 @@ const Contact = ({navigation}) => {
         <View style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.header}>
-                    <Icon type="user-plus-ic" />
+                    <Icon type="user-plus-ic" onPress={() => navigation.navigate('AddContact')} />
                 </View>
                 <View style={styles.contactWrapper}>
                 <SearchInput onChangeText={(value) => onChangeText(value)} />

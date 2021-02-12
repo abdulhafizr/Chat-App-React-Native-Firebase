@@ -1,6 +1,11 @@
 import React from 'react'
 import { StyleSheet, TouchableOpacity } from 'react-native'
-import { ICGoogle, ICUser, ICUserPlus, ICEdit, ICSignout, ICBackWhite, ICSend } from '../../../assets'
+import { 
+    ICGoogle, ICUser, ICUserPlus, 
+    ICEdit, ICSignout, ICBackWhite, 
+    ICSend, ICRightWhite, BTNMessageActive,
+    ICAdd, ICRemove
+} from '../../../assets'
 import BTNIcon from './BTNIcon'
 
 const Icon = ({ type, onPress, onLongPress, label, isFocused, style}) => {
@@ -21,8 +26,16 @@ const Icon = ({ type, onPress, onLongPress, label, isFocused, style}) => {
                 return <ICSignout />
             case 'back-arrow-ic':
                 return <ICBackWhite />
+            case 'message-ic':
+                return <BTNMessageActive />
+            case 'back-right-arrow-ic':
+                return <ICRightWhite />
             case 'send-ic':
                 return <ICSend />
+            case 'add-ic':
+                return <ICAdd />
+            case 'remove-ic':
+                return <ICRemove />
             default :
                 return <ICUser />
         }

@@ -4,5 +4,7 @@ import Contact from './Contact';
 import Profile from './Profile';
 import EditProfile from './EditProfile';
 import Chatting from './Chatting';
+import AddContact from './AddContact';
+import DetailContact from './DetailContact';
 
-export { GetStarted, Chat, Contact, Profile, EditProfile, Chatting };
+export { GetStarted, Chat, Contact, Profile, EditProfile, Chatting, AddContact, DetailContact };
