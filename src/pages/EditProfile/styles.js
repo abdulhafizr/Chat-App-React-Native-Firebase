@@ -14,8 +14,8 @@ export const styles = StyleSheet.create({
         paddingVertical: 25,
     },
     overlay: {
-        height: 720,
-        width: 391,
+        height: '180%',
+        width: '200%',
         position: 'absolute',
         backgroundColor: colors.background.primary,
         top: -200,

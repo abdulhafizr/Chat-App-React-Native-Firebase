@@ -3,5 +3,17 @@ import SearchInput from './SearchInput';
 import FormInput from './FormInput';
 import HeaderProfile from './HeaderProfile';
 import AvatarEdit from './AvatarEdit';
+import InputChat from './InputChat';
+import HeaderChat from './HeaderChat';
+import BubbleChat from './BubbleChat';
 
-export { ChatHistory, SearchInput, HeaderProfile, AvatarEdit, FormInput };
+export { 
+    ChatHistory, 
+    SearchInput, 
+    HeaderProfile, 
+    AvatarEdit, 
+    FormInput, 
+    InputChat,
+    HeaderChat,
+    BubbleChat,
+};

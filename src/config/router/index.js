@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { GetStarted, Chat, Contact, Profile, EditProfile } from '../../pages';
+import { GetStarted, Chat, Contact, Profile, EditProfile, Chatting } from '../../pages';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomTabNavigatorTheme } from './BottomTabNavigationTheme';
 
@@ -11,6 +11,7 @@ export const Router = () => {
             <Screen name="GetStarted" component={GetStarted} options={{headerShown: false}} />
             <Screen name="MainApp" component={MainApp} options={{headerShown: false}} />
             <Screen name="EditProfile" component={EditProfile} options={{headerShown: false}} />
+            <Screen name="Chatting" component={Chatting} options={{headerShown: false}} />
         </Navigator>
     )
 }

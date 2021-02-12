@@ -3,7 +3,7 @@ import { Text, View, ScrollView } from 'react-native';
 import { ChatHistory, Icon, SearchInput } from '../../components';
 import { styles } from './styles';
 
-const Contact = () => {
+const Contact = ({navigation}) => {
     const onChangeText = (value) => {
         console.log(value);
     }
@@ -16,12 +16,12 @@ const Contact = () => {
                 <View style={styles.contactWrapper}>
                 <SearchInput onChangeText={(value) => onChangeText(value)} />
                 <Text style={styles.messagesTitle}>MyContacts</Text>
-                    <ChatHistory />
-                    <ChatHistory />
-                    <ChatHistory />
-                    <ChatHistory />
-                    <ChatHistory />
-                    <ChatHistory />
+                    <ChatHistory onPress={() => navigation.navigate('Chatting')} />
+                    <ChatHistory onPress={() => navigation.navigate('Chatting')} />
+                    <ChatHistory onPress={() => navigation.navigate('Chatting')} />
+                    <ChatHistory onPress={() => navigation.navigate('Chatting')} />
+                    <ChatHistory onPress={() => navigation.navigate('Chatting')} />
+                    <ChatHistory onPress={() => navigation.navigate('Chatting')} />
                 </View>
             </ScrollView>
         </View>

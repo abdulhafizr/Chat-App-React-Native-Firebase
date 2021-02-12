@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { HeaderProfile, Icon } from '../../components';
 import { styles } from './styles';
 
@@ -12,17 +12,19 @@ const Profile = ({navigation}) => {
     }
     return (
         <View style={styles.container}>
-            <View style={styles.header}>
-                <HeaderProfile />
-            </View>
-            <View style={styles.main}>
-                <View style={styles.iconWrapper1}>
-                    <Icon type="edit-profile-ic" onPress={editProfile} />
+            <ScrollView>
+                <View style={styles.header}>
+                    <HeaderProfile />
                 </View>
-                <View style={styles.iconWrapper1}>
-                    <Icon type="signout-ic" onPress={signOut} />
+                <View style={styles.main}>
+                    <View style={styles.iconWrapper1}>
+                        <Icon type="edit-profile-ic" onPress={editProfile} />
+                    </View>
+                    <View style={styles.iconWrapper1}>
+                        <Icon type="signout-ic" onPress={signOut} />
+                    </View>
                 </View>
-            </View>
+            </ScrollView>
         </View>
     )
 }

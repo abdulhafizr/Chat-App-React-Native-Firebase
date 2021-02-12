@@ -11,6 +11,7 @@ import ICEdit from './Edit.svg';
 import ICEditProfile from './EditProfile.svg';
 import ICSignout from './Signout.svg';
 import ICBackWhite from './BackWhite.svg';
+import ICSend from './Send.svg';
 
 export { 
     ICGoogle, 
@@ -26,4 +27,5 @@ export {
     ICSignout,
     ICBackWhite,
     ICEditProfile,
+    ICSend,
 };

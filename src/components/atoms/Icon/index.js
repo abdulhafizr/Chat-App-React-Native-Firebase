@@ -1,9 +1,9 @@
 import React from 'react'
 import { StyleSheet, TouchableOpacity } from 'react-native'
-import { ICGoogle, ICUser, ICUserPlus, ICEdit, ICSignout, ICBackWhite } from '../../../assets'
+import { ICGoogle, ICUser, ICUserPlus, ICEdit, ICSignout, ICBackWhite, ICSend } from '../../../assets'
 import BTNIcon from './BTNIcon'
 
-const Icon = ({ type, onPress, onLongPress, label, isFocused}) => {
+const Icon = ({ type, onPress, onLongPress, label, isFocused, style}) => {
     const IconChild = () => {
         if(label == 'Chat' || label == 'Contact' || label == 'Profile') {
             return <BTNIcon label={label} isFocused={isFocused} />
@@ -21,12 +21,14 @@ const Icon = ({ type, onPress, onLongPress, label, isFocused}) => {
                 return <ICSignout />
             case 'back-arrow-ic':
                 return <ICBackWhite />
+            case 'send-ic':
+                return <ICSend />
             default :
                 return <ICUser />
         }
     }
     return (
-        <TouchableOpacity onPress={onPress} onLongPress={onLongPress}>
+        <TouchableOpacity onPress={onPress} onLongPress={onLongPress} style={{...style}}>
             <IconChild />
         </TouchableOpacity>
     )
