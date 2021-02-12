@@ -10,10 +10,12 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 16,
     },
     card: {
-        paddingVertical: 50,
+        paddingTop: 45,
+        paddingBottom: 50,
         backgroundColor: colors.background.secondary,
         width: '100%',
         elevation: 2,
+        zIndex: 99,
     },
     title: {
         textAlign: 'center',
@@ -24,5 +26,21 @@ export const styles = StyleSheet.create({
     icWrapper: {
         marginTop: 15,
         alignSelf: 'center',
-    }
+    },
+    bgTop: {
+        position: 'absolute',
+        right: 0,
+        top: 0,
+        height: '78%',
+        width: '50%',
+        backgroundColor: colors.background.secondary,
+    },
+    bgBottom: {
+        position: 'absolute',
+        right: 0,
+        bottom: 0,
+        height: '20%',
+        width: '50%',
+        backgroundColor: colors.background.secondary,
+    },
 })
