@@ -1,15 +1,14 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
-import { Avatar } from '../../../assets';
 import { colors, fonts } from '../../../utils';
 
-const HeaderProfile = () => {
+const HeaderProfile = ({name, profession, photo}) => {
     return (
         <View style={styles.container}>
-            <Image source={Avatar} style={styles.profile} />
+            <Image source={{uri: photo}} style={styles.profile} />
             <View style={styles.caption}>
-                <Text style={styles.name}>Abdul Hafiz Ramadan</Text>
-                <Text style={styles.profession}>Programmer</Text>
+                <Text style={styles.name}>{name}</Text>
+                <Text style={styles.profession}>{profession}</Text>
             </View>
         </View>
     )

@@ -1,16 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ScrollView, View } from 'react-native';
 import { HeaderProfile, Icon } from '../../components';
 import { GoogleSignin } from '@react-native-community/google-signin';
-import { firebase } from '../../config';
+import { firebase, getData } from '../../config';
 import { errorMessage, successMessage } from '../../utils';
 import { styles } from './styles';
 
 const Profile = ({navigation}) => {
+    const [user, setUser] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const editProfile = () => {
         navigation.navigate('EditProfile');
     }
+    useEffect(() => {
+        getData('user').then((response) => {
+            setUser(response);
+        })
+    }, [])
     const signOut = async () => {
         setIsLoading(true);
         try {
@@ -34,7 +40,15 @@ const Profile = ({navigation}) => {
         <View style={styles.container}>
             <ScrollView>
                 <View style={styles.header}>
-                    <HeaderProfile />
+                    {
+                        user.name !== undefined && (
+                            <HeaderProfile 
+                                name={user.name}
+                                profession={user.profession}
+                                photo={user.photo}
+                            />
+                        )
+                    }
                 </View>
                 <View style={styles.main}>
                     <View style={styles.iconWrapper1}>

@@ -35,6 +35,7 @@ const GetStarted = ({navigation}) => {
                         name: response.user.displayName, 
                         email: response.user.email,
                         photo: response.user.photoURL,
+                        profession: 'No Profession',
                     }
                     
                     storeData('user', data);
