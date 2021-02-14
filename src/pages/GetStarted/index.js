@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
+import { GoogleSignin, statusCodes } from '@react-native-community/google-signin';
 import { Text, View } from 'react-native';
 import { Icon } from '../../components';
-import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-community/google-signin';
+import { successMessage, errorMessage } from '../../utils';
 import { styles } from './styles';
 
 const GetStarted = ({navigation}) => {
@@ -18,16 +19,17 @@ const GetStarted = ({navigation}) => {
             await GoogleSignin.hasPlayServices();
             const userInfo = await GoogleSignin.signIn();
             setUser(userInfo);
-            console.log(userInfo);
+            successMessage("Signin with google success")  
+            navigation.navigate("MainApp");          
           } catch (error) {
             if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-              // user cancelled the login flow
+              errorMessage("user cancelled the login flow")
             } else if (error.code === statusCodes.IN_PROGRESS) {
-              // operation (e.g. sign in) is in progress already
+              errorMessage("operation (e.g. sign in) is in progress already")
             } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-              // play services not available or outdated
+              errorMessage("play services not available or outdated")
             } else {
-              console.log(error);
+              errorMessage(error);
             }
         }
     }
