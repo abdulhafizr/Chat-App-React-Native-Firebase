@@ -7,6 +7,7 @@ const baseColors = {
     white3: '#9E9C9C',
     blue1: '#5D78B0',
     black: '#000000',
+    red1: '#E06379',
 }
 
 export const colors = {
@@ -14,6 +15,7 @@ export const colors = {
         primary: baseColors.primary,
         secondary: baseColors.secondary,
         blue: baseColors.blue1,
+        error: baseColors.red1,
     },
     text: {
         primary: baseColors.primary,

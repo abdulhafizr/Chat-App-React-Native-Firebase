@@ -14,7 +14,7 @@ export const errorMessage = (message) => (
     showMessage({
         message,
         type: 'default',
-        backgroundColor: colors.background.secondary,
-        color: colors.text.white2,
+        backgroundColor: colors.background.error,
+        color: colors.text.white,
     })
 )

@@ -1,14 +1,18 @@
 import React from 'react'
-import { StyleSheet, TouchableOpacity } from 'react-native'
+import { StyleSheet, TouchableOpacity, ActivityIndicator, View } from 'react-native'
 import { 
     ICGoogle, ICUser, ICUserPlus, 
     ICEdit, ICSignout, ICBackWhite, 
     ICSend, ICRightWhite, BTNMessageActive,
     ICAdd, ICRemove
 } from '../../../assets'
+import { colors } from '../../../utils'
 import BTNIcon from './BTNIcon'
 
-const Icon = ({ type, onPress, onLongPress, label, isFocused, style}) => {
+const Icon = ({ type, onPress, onLongPress, label, isFocused, isLoading, style, sizeIndicator}) => {
+    if(isLoading) {
+        return <ActivityIndicator size={sizeIndicator || "small"} color={colors.text.white1} />
+    }
     const IconChild = () => {
         if(label == 'Chat' || label == 'Contact' || label == 'Profile') {
             return <BTNIcon label={label} isFocused={isFocused} />
