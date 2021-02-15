@@ -13,16 +13,16 @@ const EditProfile = ({navigation, route}) => {
     useEffect(() => {
         const oldUser = {...route.params};
 
-        if(
-            user.name === oldUser.name &&
-            user.email === oldUser.email &&
-            user.profession === oldUser.profession
-        ) {
+        if(user.name === oldUser.name && user.profession === oldUser.profession) {
             setDisableButton(true);
         }else{
-            setDisableButton(false);
+            if(user.name.length == 0 || user.profession.length == 0) {
+                setDisableButton(true);
+            }else{
+                setDisableButton(false);
+            }
         }
-    }, [user])
+    }, [user, disableButton])
     const onChangeText = (key, value) => {
         
         setUser({
@@ -40,7 +40,8 @@ const EditProfile = ({navigation, route}) => {
                 setIsLoading(false);
                 setDisableForm(false);
                 storeData('user', user);
-                successMessage('Profile berhasil updated');
+                successMessage('Profile success updated');
+                navigation.replace('MainApp');
             })
             .catch((error) => {
                 setDisableButton(false);
@@ -81,7 +82,7 @@ const EditProfile = ({navigation, route}) => {
                             value={user.profession} 
                             isDisable={disableForm}
                         />
-                        <Gap height={10} />
+                        <Gap height={20} />
                         <Button 
                             label="Save" 
                             onPress={onUpdate} 
