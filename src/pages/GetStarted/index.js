@@ -3,7 +3,7 @@ import { GoogleSignin, statusCodes } from '@react-native-community/google-signin
 import { Text, View } from 'react-native';
 import { Icon } from '../../components';
 import { successMessage, errorMessage } from '../../utils';
-import { firebase, storeData } from '../../config';
+import { firebase, getData, storeData } from '../../config';
 import { styles } from './styles';
 
 const GetStarted = ({navigation}) => {
@@ -14,11 +14,11 @@ const GetStarted = ({navigation}) => {
             webClientId: '226198834600-r314gdlmqa9o7vrcl9k2o9cf08mn53vs.apps.googleusercontent.com',
             offlineAccess: false,
         })
-        firebase.auth().onAuthStateChanged((user) => {
-            if(user !== null && isMounted) {
-                navigation.replace('MainApp');
-            }
-        })
+        // firebase.auth().onAuthStateChanged((user) => {
+        //     if(user !== null && isMounted) {
+        //         navigation.replace('MainApp');
+        //     }
+        // })
         return () => { isMounted = false };
     }, []);
     const signInWithGoogle = async () => {
@@ -31,30 +31,32 @@ const GetStarted = ({navigation}) => {
             const googleCredential = firebase.auth.GoogleAuthProvider.credential(idToken);
             
             firebase.auth().signInWithCredential(googleCredential)
-                .then((response) => {
-                    const data = {
-                        uid: response.user.uid,
-                        name: response.user.displayName, 
-                        email: response.user.email,
-                        photo: response.user.photoURL,
-                        profession: 'No Profession',
+            .then(async (response) => {
+                const data = {
+                    uid: response.user.uid,
+                    name: response.user.displayName, 
+                    email: response.user.email,
+                    photo: response.user.photoURL,
+                    profession: 'No Profession',
+                }
+                firebase.database().ref(`users/${response.user.uid}`).once('value')
+                .then((userResponse) => {
+                    if(!userResponse.val()) {
+                        storeData('user', data);
+                        firebase.database().ref(`users/${data.uid}`).set(data);
+                    }else{
+                        storeData('user', userResponse);
                     }
-                    
-                    storeData('user', data);
 
-                    firebase.database().ref(`users/${data.uid}`)
-                        .set(data);
-                    
                     setIsLoading(false);
-
                     successMessage("Signin with google success");  
-                    
                     navigation.navigate("MainApp");   
                 })
-                .catch((error) => {
-                    setIsLoading(false);
-                    successMessage(error.message);
-                })
+            })
+            .catch((error) => {
+                setIsLoading(false);
+                successMessage(error.message);
+            })
             
           } catch (error) {
             setIsLoading(false);
