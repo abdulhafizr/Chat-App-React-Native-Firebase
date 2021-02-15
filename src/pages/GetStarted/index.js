@@ -9,15 +9,17 @@ import { styles } from './styles';
 const GetStarted = ({navigation}) => {
     const [isLoading, setIsLoading] = useState(false);
     useEffect(() => {
+        let isMounted = true;
         GoogleSignin.configure({
             webClientId: '226198834600-r314gdlmqa9o7vrcl9k2o9cf08mn53vs.apps.googleusercontent.com',
             offlineAccess: false,
         })
         firebase.auth().onAuthStateChanged((user) => {
-            if(user !== null) {
+            if(user !== null && isMounted) {
                 navigation.replace('MainApp');
             }
         })
+        return () => { isMounted = false };
     }, []);
     const signInWithGoogle = async () => {
         setIsLoading(true);
