@@ -16,6 +16,7 @@ export const colors = {
         secondary: baseColors.secondary,
         blue: baseColors.blue1,
         error: baseColors.red1,
+        disabled: baseColors.primary,
     },
     text: {
         primary: baseColors.primary,
@@ -28,5 +29,6 @@ export const colors = {
     },
     border: {
         primary: baseColors.secondary,
+        disable: baseColors.secondary,
     }
 }

@@ -1,8 +1,21 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { colors, fonts } from '../../../utils';
 
-const Button = ({onPress, label}) => {
+const Button = ({onPress, label, isDisable, isLoading}) => {
+    if(isDisable) {
+        return (
+            <View style={styles.container_disabled}>
+                {
+                    isLoading ? (
+                        <ActivityIndicator size="small" color={colors.text.white3} />
+                        ) : (
+                        <Text style={styles.label_disabled}>{label}</Text>
+                    )
+                }
+            </View>
+        )
+    }
     return (
         <TouchableOpacity onPress={onPress} style={styles.container}>
             <Text style={styles.label}>{label}</Text>
@@ -18,7 +31,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.background.secondary,
         justifyContent: 'center',
         alignItems: 'center',
-        borderColor: colors.text.white3,
+        borderColor: colors.background.primary,
         borderWidth: 0.3,
         borderRadius: 8,
     },
@@ -26,5 +39,19 @@ const styles = StyleSheet.create({
         fontFamily: fonts.primary[600],
         fontSize: 16,
         color: colors.text.white3,
-    }
+    },
+    container_disabled: {
+        height: 44,
+        backgroundColor: colors.background.disabled,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderColor: colors.border.disable,
+        borderWidth: 0.3,
+        borderRadius: 8,
+    },
+    label_disabled: {
+        fontFamily: fonts.primary[600],
+        fontSize: 16,
+        color: colors.text.secondary,
+    },
 })

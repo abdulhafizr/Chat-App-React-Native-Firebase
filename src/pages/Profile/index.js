@@ -9,9 +9,7 @@ import { styles } from './styles';
 const Profile = ({navigation}) => {
     const [user, setUser] = useState({});
     const [isLoading, setIsLoading] = useState(false);
-    const editProfile = () => {
-        navigation.navigate('EditProfile');
-    }
+
     useEffect(() => {
         getData('user').then((response) => {
             setUser(response);
@@ -36,6 +34,10 @@ const Profile = ({navigation}) => {
             setIsLoading(false);
         }
     }
+    const editProfile = () => {
+        navigation.navigate('EditProfile', user);
+    }
+
     return (
         <View style={styles.container}>
             <ScrollView>
