@@ -9,7 +9,6 @@ const EditProfile = ({navigation, route}) => {
     const [disableButton, setDisableButton] = useState(true);
     const [disableForm, setDisableForm] = useState(false);
     const [user, setUser] = useState(route.params);
-    const [isLoading, setIsLoading] = useState(false);
     useEffect(() => {
         const oldUser = {...route.params};
 
@@ -32,12 +31,10 @@ const EditProfile = ({navigation, route}) => {
     }
     const onUpdate = () => {
         setDisableButton(true);
-        setIsLoading(true);
         setDisableForm(true);
         firebase.database().ref(`users/${user.uid}`).update(user)
             .then(() => {
                 setDisableButton(false);
-                setIsLoading(false);
                 setDisableForm(false);
                 storeData('user', user);
                 successMessage('Profile success updated');
@@ -45,7 +42,6 @@ const EditProfile = ({navigation, route}) => {
             })
             .catch((error) => {
                 setDisableButton(false);
-                setIsLoading(false);
                 setDisableForm(false);
                 errorMessage(error.message);
             })
@@ -86,8 +82,7 @@ const EditProfile = ({navigation, route}) => {
                         <Button 
                             label="Save" 
                             onPress={onUpdate} 
-                            isDisable={disableButton} 
-                            isLoading={isLoading} 
+                            isDisable={disableButton}
                         />
                     </View>
 
