@@ -48,6 +48,7 @@ const InputChat = ({data}) => {
                         sentBy: currentUser.uid,
                     }
 
+                    db.ref(`chatting/${friendUid}_${currentUser.uid}/${getDate}/`).push(messageSend);
                     db.ref(`history_chats/${currentUser.uid}/${friendUid}`).set(historyChat);
                     db.ref(`history_chats/${friendUid}/${currentUser.uid}`).set(historyChat);
                 })

@@ -19,12 +19,7 @@ const Chat = ({navigation}) => {
                 </View>
                 <Text style={styles.messagesTitle}>Messages</Text>
                 <View style={styles.chatHistoryWrapper}>
-                    <ChatHistory onPress={() => navigation.navigate('Chatting')} />
-                    <ChatHistory onPress={() => navigation.navigate('Chatting')} />
-                    <ChatHistory onPress={() => navigation.navigate('Chatting')} />
-                    <ChatHistory onPress={() => navigation.navigate('Chatting')} />
-                    <ChatHistory onPress={() => navigation.navigate('Chatting')} />
-                    <ChatHistory onPress={() => navigation.navigate('Chatting')} />
+                    {/* <ChatHistory onPress={() => navigation.navigate('Chatting')} /> */}
                 </View>
             </ScrollView>
         </View>

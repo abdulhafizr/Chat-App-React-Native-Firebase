@@ -1,17 +1,17 @@
-import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import { colors, fonts } from '../../../utils'
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { colors, fonts } from '../../../utils';
 
-const Me = () => {
+const Me = ({message, date}) => {
     return (
         <View style={styles.messages}>
-            <Text style={styles.messageText}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem and typesetting industry</Text>
-            <Text style={styles.timestamp}>14:30 AM</Text>
+            <Text style={styles.messageText}>{message}</Text>
+            <Text style={styles.timestamp}>{date}</Text>
         </View>
     )
 }
 
-export default Me
+export default Me;
 
 const styles = StyleSheet.create({
     messages: {

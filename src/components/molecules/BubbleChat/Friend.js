@@ -3,13 +3,13 @@ import { Image, StyleSheet, Text, View } from 'react-native';
 import { colors, fonts } from '../../../utils';
 import { Avatar } from '../../../assets';
 
-const Friend = () => {
+const Friend = ({photo, message, date}) => {
     return (
         <View style={styles.container}>
-            <Image source={Avatar} style={styles.profile} />
+            <Image source={{uri: photo}} style={styles.profile} />
             <View style={styles.messages}>
-                <Text style={styles.messageText}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem and typesetting industry</Text>
-                <Text style={styles.timestamp}>14:30 AM</Text>
+                <Text style={styles.messageText}>{message}</Text>
+                <Text style={styles.timestamp}>{date}</Text>
             </View>
         </View>
     )
@@ -23,7 +23,6 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         marginBottom: 15,
         flexDirection: 'row',
-        justifyContent: 'space-between',
         alignItems: 'center',
     },
     profile: {

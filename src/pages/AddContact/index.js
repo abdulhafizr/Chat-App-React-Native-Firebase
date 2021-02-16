@@ -9,10 +9,8 @@ const AddContact = ({navigation}) => {
 
     useEffect(() => {
         
-        getLocalUser();
-        
         getData('user').then((currentUser) => {
-            firebase.database().ref('users').once('value', (snapshot) => {
+            firebase.database().ref('users').on('value', (snapshot) => {
                 const oldSnapshot = snapshot.val();
                 const data = [];
                 Object.keys(oldSnapshot).filter((key) => {
@@ -28,13 +26,15 @@ const AddContact = ({navigation}) => {
         })
 
     }, [])
-    const getLocalUser = async () => {
-        
-    }
+    
     const onChangeText = (value) => null;
     const onPress = (item) => {
         navigation.navigate('Chatting', {...item});
     }
+    const RenderAllUser = ({item}) => (
+        <UserItem item={item} onPress={() => onPress(item)} />
+    )
+
     return (
         <View style={styles.container}>
             <Gap height={25} />
@@ -43,12 +43,7 @@ const AddContact = ({navigation}) => {
                 <Gap height={15} />
                 <FlatList
                     data={user}
-                    renderItem={({item}) => 
-                        <UserItem 
-                            item={item} 
-                            onPress={() => onPress(item)}
-                        />
-                    }
+                    renderItem={({item}) => <RenderAllUser item={item} />}
                     keyExtractor={(item, index) => index.toString()}
                     ItemSeparatorComponent={() => <View style={{height: 10}} /> }
                 />

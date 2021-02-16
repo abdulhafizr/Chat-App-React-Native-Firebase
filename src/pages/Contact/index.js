@@ -14,14 +14,9 @@ const Contact = ({navigation}) => {
                     <Icon type="user-plus-ic" onPress={() => navigation.navigate('AddContact')} />
                 </View>
                 <View style={styles.contactWrapper}>
-                <SearchInput onChangeText={(value) => onChangeText(value)} />
-                <Text style={styles.messagesTitle}>MyContacts</Text>
-                    <ChatHistory onPress={() => navigation.replace('Chatting')} />
-                    <ChatHistory onPress={() => navigation.replace('Chatting')} />
-                    <ChatHistory onPress={() => navigation.replace('Chatting')} />
-                    <ChatHistory onPress={() => navigation.replace('Chatting')} />
-                    <ChatHistory onPress={() => navigation.replace('Chatting')} />
-                    <ChatHistory onPress={() => navigation.replace('Chatting')} />
+                    <SearchInput onChangeText={(value) => onChangeText(value)} />
+                    <Text style={styles.messagesTitle}>MyContacts</Text>
+                    {/* <ChatHistory onPress={() => navigation.replace('Chatting')} /> */}
                 </View>
             </ScrollView>
         </View>
