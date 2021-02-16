@@ -1,7 +1,6 @@
 import React from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { colors, fonts } from '../../../utils';
-import { Avatar } from '../../../assets';
 
 const Friend = ({photo, message, date}) => {
     return (
@@ -19,11 +18,11 @@ export default Friend;
 
 const styles = StyleSheet.create({
     container: {
-        maxWidth: '75%',
         marginLeft: 10,
         marginBottom: 15,
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'flex-start',
     },
     profile: {
         width: 35,
@@ -35,6 +34,9 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         backgroundColor: colors.background.blue,
         padding: 10,
+        paddingBottom: 18,
+        maxWidth: '80%',
+        minWidth: '13%',
     },
     messageText: {
         fontSize: 14,
@@ -42,11 +44,11 @@ const styles = StyleSheet.create({
         fontFamily: fonts.primary[400]
     },
     timestamp: {
-        fontSize: 10,
+        fontSize: 9,
         fontFamily: fonts.primary[300],
         color: colors.text.white2,
-        position: 'relative',
-        textAlign: 'right',
-        marginTop: 4,
+        position: 'absolute',
+        bottom: 4,
+        right: 4,
     }
 })

@@ -16,11 +16,13 @@ export default Me;
 const styles = StyleSheet.create({
     messages: {
         maxWidth: '80%',
+        minWidth: '10%',
         alignSelf: 'flex-end',
         backgroundColor: colors.background.secondary,
         borderRadius: 8,
         marginRight: 10,
         padding: 10,
+        paddingBottom: 18,
         marginBottom: 15,
     },
     messageText: {
@@ -29,11 +31,11 @@ const styles = StyleSheet.create({
         fontFamily: fonts.primary[400]
     },
     timestamp: {
-        fontSize: 10,
+        fontSize: 9,
         fontFamily: fonts.primary[300],
         color: colors.text.white2,
-        position: 'relative',
-        textAlign: 'right',
-        marginTop: 4,
+        position: 'absolute',
+        bottom: 4,
+        right: 4,
     }
 })

@@ -28,7 +28,7 @@ const InputChat = ({data}) => {
 
             const hours = currentDate.getHours();
             const minutes = currentDate.getMinutes();
-            const getTime = `${hours}:${minutes} ${hours > 12 ? 'PM':'AM' }`;
+            const getTime = `${hours}:${minutes}`;
 
             const messageSend = {
                 message,
