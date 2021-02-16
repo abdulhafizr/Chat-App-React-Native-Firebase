@@ -3,19 +3,19 @@ import { Text, View, Image, TouchableOpacity } from 'react-native';
 import { Avatar } from '../../../assets';
 import { styles } from './styles';
 
-const ChatHistory = ({onPress}) => {
+const ChatHistory = ({photo, name, profession, message, onPress}) => {
     return (
         <TouchableOpacity style={styles.container} onPress={onPress}>
             <View style={styles.profile}>
-                <Image source={Avatar} style={styles.avatar} />
+                <Image source={{uri: photo}} style={styles.avatar} />
                 <View style={styles.caption}>
-                    <Text style={styles.name}>Abdul Hafiz Ramadan</Text>
-                    <Text style={styles.job}>Programmer</Text>
+                    <Text style={styles.name}>{name}</Text>
+                    <Text style={styles.job}>{profession}</Text>
                 </View>
             </View>
             <View style={styles.messageWrapper}>
                 <Text style={styles.message}>
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the .....
+                    {message}
                 </Text>
             </View>
         </TouchableOpacity>

@@ -15,11 +15,10 @@ export const styles = StyleSheet.create({
     messagesTitle: {
         fontSize: 16,
         color: colors.text.white,
-        paddingHorizontal: 16,
         fontFamily: fonts.primary[600],
+        marginBottom: 15,
     },
     chatHistoryWrapper: {
-        marginTop: 15,
-        paddingHorizontal: 16,
+        paddingHorizontal: 12,
     },
 })

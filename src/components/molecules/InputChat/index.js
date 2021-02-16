@@ -1,17 +1,23 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 import { getData, firebase } from '../../../config';
-import { colors, fonts } from '../../../utils';
+import { colors, errorMessage, fonts } from '../../../utils';
 import { Icon } from '../../atoms';
 
 const InputChat = ({data}) => {
     const {uid : friendUid} = data;
     const [currentUser, setCurrentUser] = useState({});
-    const [message, setMessage] = useState("");
+    const [message, setMessage] = useState('');
+    const [friendData, setFriendData] = useState({});
     
     useEffect(() => {
         getData('user').then((response) => {
             setCurrentUser(response);
+        })
+        firebase.database().ref(`users/${friendUid}`).once('value', (response) => {
+            if(response.val()) {
+                setFriendData(response.val());
+            }
         })
     }, [])
     const onChangeText = (value) => {
@@ -38,19 +44,29 @@ const InputChat = ({data}) => {
             
             const db = firebase.database();
             
+            setMessage('');
+
             db.ref(`chatting/${currentUser.uid}_${friendUid}/${getDate}/`).push(messageSend)
             .then(() => {
-                    setMessage("");
 
                     const historyChat = {
                         message,
                         time: getTime,
-                        sentBy: currentUser.uid,
                     }
 
-                    db.ref(`chatting/${friendUid}_${currentUser.uid}/${getDate}/`).push(messageSend);
-                    db.ref(`history_chats/${currentUser.uid}/${friendUid}`).set(historyChat);
-                    db.ref(`history_chats/${friendUid}/${currentUser.uid}`).set(historyChat);
+                    db.ref(`chatting/${friendUid}_${currentUser.uid}/${getDate}/`).push(messageSend).then(() => {
+                        const historyCol = firebase.database().ref(`history_chats/`);
+
+                        historyCol.child(`${friendUid}/${currentUser.uid}`).set({
+                            ...historyChat,
+                            ...currentUser,
+                        })
+                        historyCol.child(`${currentUser.uid}/${friendUid}`).set({
+                            ...historyChat,
+                            ...friendData,
+                        })
+                    })
+                    
                 })
                 .catch((error) => {
                     errorMessage(error.message);
@@ -65,7 +81,6 @@ const InputChat = ({data}) => {
                 style={styles.formInput}
                 onChangeText={(value) => onChangeText(value)}
                 value={message}
-
             />
             <Icon type='send-ic' style={{marginBottom: 8}} onPress={onSent} />
         </View>
