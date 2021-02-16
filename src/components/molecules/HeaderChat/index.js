@@ -4,12 +4,12 @@ import { colors, fonts } from '../../../utils';
 import { Avatar } from '../../../assets';
 import { Icon } from '../../atoms';
 
-const HeaderChat = ({name, onPress}) => {
+const HeaderChat = ({name, photo, onPress}) => {
     return (
         <View style={styles.container}>
             <Icon type="back-arrow-ic" onPress={onPress} />
             <Text style={styles.name}>{name}</Text>
-            <Image source={Avatar} style={styles.profile} />
+            <Image source={{uri: photo}} style={styles.profile} />
         </View>
     )
 }
@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+
     },
     name: {
         flex: 1,
@@ -32,6 +33,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontFamily: fonts.primary[400],
         color: colors.text.white2,
+        alignContent: 'center',
     },
     profile: {
         width: 35,

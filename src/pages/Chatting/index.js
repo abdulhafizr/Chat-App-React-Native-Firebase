@@ -1,12 +1,16 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import { BubbleChat, HeaderChat, InputChat } from '../../components';
+import { firebase, getData } from '../../config';
+import { errorMessage } from '../../utils';
 import { styles } from './styles';
 
-const Chatting = ({navigation}) => {
+const Chatting = ({navigation, route}) => {
+    const {uid : friendUid, name : friendName, photo : friendPhoto} = route.params;
+
     return (
         <View style={styles.container}>
-            <HeaderChat name="Abdul Hafiz Ramadan" onPress={() => navigation.goBack()} />
+            <HeaderChat name={friendName} photo={friendPhoto} onPress={() => navigation.goBack()} />
             <View style={styles.chatBody}>
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <View style={styles.chatContent}>
@@ -19,7 +23,7 @@ const Chatting = ({navigation}) => {
                         <BubbleChat />
                     </View>
                 </ScrollView>
-                <InputChat />
+                <InputChat data={route.params} />
             </View>
         </View>
     )

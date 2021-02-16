@@ -14,11 +14,11 @@ const GetStarted = ({navigation}) => {
             webClientId: '226198834600-r314gdlmqa9o7vrcl9k2o9cf08mn53vs.apps.googleusercontent.com',
             offlineAccess: false,
         })
-        // firebase.auth().onAuthStateChanged((user) => {
-        //     if(user !== null && isMounted) {
-        //         navigation.replace('MainApp');
-        //     }
-        // })
+        firebase.auth().onAuthStateChanged((user) => {
+            if(user !== null && isMounted) {
+                navigation.replace('MainApp');
+            }
+        })
         return () => { isMounted = false };
     }, []);
     const signInWithGoogle = async () => {
@@ -50,7 +50,7 @@ const GetStarted = ({navigation}) => {
 
                     setIsLoading(false);
                     successMessage("Signin with google success");  
-                    navigation.navigate("MainApp");   
+                    navigation.replace("MainApp");   
                 })
             })
             .catch((error) => {

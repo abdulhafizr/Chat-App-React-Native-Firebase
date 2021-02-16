@@ -4,9 +4,9 @@ import { ChatHistory, Icon, SearchInput } from '../../components';
 import { styles } from './styles';
 
 const Contact = ({navigation}) => {
-    const onChangeText = (value) => {
-        console.log(value);
-    }
+    // const onChangeText = (value) => {
+    //     console.log(value);
+    // }
     return (
         <View style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
@@ -16,12 +16,12 @@ const Contact = ({navigation}) => {
                 <View style={styles.contactWrapper}>
                 <SearchInput onChangeText={(value) => onChangeText(value)} />
                 <Text style={styles.messagesTitle}>MyContacts</Text>
-                    <ChatHistory onPress={() => navigation.navigate('Chatting')} />
-                    <ChatHistory onPress={() => navigation.navigate('Chatting')} />
-                    <ChatHistory onPress={() => navigation.navigate('Chatting')} />
-                    <ChatHistory onPress={() => navigation.navigate('Chatting')} />
-                    <ChatHistory onPress={() => navigation.navigate('Chatting')} />
-                    <ChatHistory onPress={() => navigation.navigate('Chatting')} />
+                    <ChatHistory onPress={() => navigation.replace('Chatting')} />
+                    <ChatHistory onPress={() => navigation.replace('Chatting')} />
+                    <ChatHistory onPress={() => navigation.replace('Chatting')} />
+                    <ChatHistory onPress={() => navigation.replace('Chatting')} />
+                    <ChatHistory onPress={() => navigation.replace('Chatting')} />
+                    <ChatHistory onPress={() => navigation.replace('Chatting')} />
                 </View>
             </ScrollView>
         </View>

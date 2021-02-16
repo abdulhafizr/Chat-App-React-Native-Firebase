@@ -6,10 +6,10 @@ import { styles } from './styles';
 
 const Chat = ({navigation}) => {
     useEffect(() => {
-        getData('user').then((user) => {
-            if(user !== null) {
-            }
-        })
+        // getData('user').then((user) => {
+        //     if(user !== null) {
+        //     }
+        // })
     }, [])
     return (
         <View style={styles.container}>

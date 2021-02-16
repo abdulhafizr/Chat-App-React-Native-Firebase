@@ -4,14 +4,15 @@ import { Avatar } from '../../../assets';
 import { Icon } from '../../atoms';
 import { styles } from './styles';
 
-const UserItem = ({onPress}) => {
+const UserItem = ({item, onPress}) => {
+    const {uid, photo, name, profession} = item;
     return (
         <TouchableOpacity style={styles.container} onPress={onPress}>
             <View style={styles.profile}>
-                <Image source={Avatar} style={styles.avatar} />
+                <Image source={{uri: photo}} style={styles.avatar} />
                 <View style={styles.caption}>
-                    <Text style={styles.name}>Abdul Hafiz Ramadan</Text>
-                    <Text style={styles.job}>Programmer</Text>
+                    <Text style={styles.name}>{name}</Text>
+                    <Text style={styles.job}>{profession}</Text>
                 </View>
                 <Icon type="back-right-arrow-ic" />
             </View>
