@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
         position: 'absolute',
         backgroundColor: colors.background.primary,
         top: -200,
-        left: 100
+        left: -30
     },
     avatarEdit: {
         marginVertical: 56,
