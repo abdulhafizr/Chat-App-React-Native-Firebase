@@ -1,11 +1,10 @@
 import React from 'react';
 import { Text, View, Image, TouchableOpacity } from 'react-native';
-import { Avatar } from '../../../assets';
 import { styles } from './styles';
 
-const ChatHistory = ({photo, name, profession, message, onPress}) => {
+const ChatHistory = ({photo, name, profession, message, onPress, onLongPress}) => {
     return (
-        <TouchableOpacity style={styles.container} onPress={onPress}>
+        <TouchableOpacity style={styles.container} onPress={onPress} onLongPress={onLongPress}>
             <View style={styles.profile}>
                 <Image source={{uri: photo}} style={styles.avatar} />
                 <View style={styles.caption}>

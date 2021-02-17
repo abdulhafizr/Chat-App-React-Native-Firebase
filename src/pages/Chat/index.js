@@ -45,9 +45,15 @@ const Chat = ({navigation}) => {
                 photo={item.photo}
                 message={item.message}
                 onPress={() => navigation.navigate('Chatting', {...item})} 
+                onLongPress={deleteMessages}
             />
         )
     }
+   
+    const deleteMessages = () => {
+        alert('Delete Messages?')
+    }
+
     return (
         <FlatList 
             data={historyMessages}

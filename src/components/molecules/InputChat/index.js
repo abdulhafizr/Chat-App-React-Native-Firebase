@@ -128,6 +128,5 @@ const styles = StyleSheet.create({
     emojiBoard: (active) => (
     {
         position: (active ? 'absolute' : 'relative'),
-    
     })
 })
