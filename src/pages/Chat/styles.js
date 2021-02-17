@@ -10,7 +10,6 @@ export const styles = StyleSheet.create({
         paddingTop: 25,
         paddingBottom: 18,
         alignItems: 'flex-end',
-        paddingHorizontal: 16,
     },
     messagesTitle: {
         fontSize: 16,

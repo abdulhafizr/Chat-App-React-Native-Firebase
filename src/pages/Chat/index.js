@@ -10,15 +10,19 @@ const Chat = ({navigation}) => {
         navigation.addListener('focus', () => {
             getData('user').then((currentUser) => {
                 if(currentUser) {
-                    firebase.database().ref(`history_chats/${currentUser.uid}`).on('value', (snapshot) => {
+                    const rootDB = firebase.database().ref();
+                    rootDB.child(`history_chats/${currentUser.uid}`).on('value', async (snapshot) => {
                         const allHistoryMessages = snapshot.val();
                         if(allHistoryMessages) {
                             const data = [];
-                            Object.keys(allHistoryMessages).map((key) => {
+                            const promises = await Object.keys(allHistoryMessages).map(async (key) => {
+                                const friendInfo = await rootDB.child(`users/${allHistoryMessages[key].uid}`).once('value');
                                 data.push({
                                     ...allHistoryMessages[key],
+                                    ...friendInfo.val()
                                 })
                             })
+                            await Promise.all(promises);
                             setHistoryMessages(data);
                         }
                     })
@@ -26,6 +30,10 @@ const Chat = ({navigation}) => {
             })
         })
     }, [navigation]);
+    
+    const getHistoryMessages = () => {
+        
+    }
 
     const _renderHeader = () => {
         return (

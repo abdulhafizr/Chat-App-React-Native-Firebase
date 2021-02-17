@@ -34,12 +34,13 @@ const InputChat = ({data}) => {
 
             const hours = currentDate.getHours();
             const minutes = currentDate.getMinutes();
-            const getTime = `${hours}:${minutes}`;
+            const getTime = `${hours < 10 ? `0${hours}` : hours }:${minutes < 10 ? `0${minutes}` : minutes}`;
 
             const messageSend = {
                 message,
                 time: getTime,
                 sentBy: currentUser.uid,
+                key: currentDate.getTime(),
             }
             
             const db = firebase.database();
@@ -59,11 +60,11 @@ const InputChat = ({data}) => {
 
                         historyCol.child(`${friendUid}/${currentUser.uid}`).set({
                             ...historyChat,
-                            ...currentUser,
+                            uid: currentUser.uid,
                         })
                         historyCol.child(`${currentUser.uid}/${friendUid}`).set({
                             ...historyChat,
-                            ...friendData,
+                            uid: friendUid,
                         })
                     })
                     

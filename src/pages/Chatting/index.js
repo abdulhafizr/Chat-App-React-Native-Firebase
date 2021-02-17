@@ -35,6 +35,7 @@ const Chatting = ({navigation, route}) => {
             {
                 item.messeges.map((chat) => (
                     <BubbleChat 
+                        key={chat.key}
                         message={chat.message} 
                         date={chat.time}
                         isFriend={friendUid === chat.sentBy}
@@ -49,8 +50,9 @@ const Chatting = ({navigation, route}) => {
         <View style={styles.container}>
             <HeaderChat name={friendName} photo={friendPhoto} onPress={() => navigation.goBack()} />
             <View style={styles.chatBody}>
-                <FlatList style={styles.chatContent} 
+                <FlatList 
                     inverted
+                    style={styles.chatContent} 
                     contentContainerStyle={{flexDirection: 'column-reverse'}}
                     data={messages}
                     renderItem={({item}) => _renderAllMessages(item)}
