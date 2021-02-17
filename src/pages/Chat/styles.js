@@ -5,11 +5,10 @@ export const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: colors.background.primary,
+        paddingHorizontal: 12,
     },
     header: {
         paddingTop: 25,
-        paddingBottom: 18,
-        alignItems: 'flex-end',
     },
     messagesTitle: {
         fontSize: 16,
@@ -17,7 +16,8 @@ export const styles = StyleSheet.create({
         fontFamily: fonts.primary[600],
         marginBottom: 15,
     },
-    chatHistoryWrapper: {
-        paddingHorizontal: 12,
-    },
+    ic_profile: {
+        alignSelf: 'flex-end',
+        marginRight: 2,
+    }
 })

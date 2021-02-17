@@ -30,19 +30,13 @@ const Chat = ({navigation}) => {
             })
         })
     }, [navigation]);
-    
-    const getHistoryMessages = () => {
-        
-    }
 
     const _renderHeader = () => {
         return (
-            <>
-                <View style={styles.header}>
-                    <Icon type="user-ic" onPress={() => navigation.navigate('Profile')} />
-                </View>
+            <View style={styles.header}>
+                <Icon type="user-ic" onPress={() => navigation.navigate('Profile')} style={styles.ic_profile} />
                 <Text style={styles.messagesTitle}>Messages</Text>
-            </>
+            </View>
         )
     }
     const _renderAllHistory = (item) => {
@@ -57,16 +51,14 @@ const Chat = ({navigation}) => {
         )
     }
     return (
-        <View style={styles.container}>
-            <FlatList 
-                data={historyMessages}
-                ListHeaderComponent={_renderHeader}
-                style={styles.chatHistoryWrapper}
-                renderItem={({item}) => _renderAllHistory(item)}
-                keyExtractor={(item, index) => index.toString()}
-                showsVerticalScrollIndicator={false}
-            />
-        </View>
+        <FlatList 
+            data={historyMessages}
+            ListHeaderComponent={_renderHeader}
+            style={styles.container}
+            renderItem={({item}) => _renderAllHistory(item)}
+            keyExtractor={(item, index) => index.toString()}
+            showsVerticalScrollIndicator={false}
+        />
     )
 }
 

@@ -8,17 +8,18 @@ export const styles = StyleSheet.create({
     },
     header: {
         paddingTop: 25,
-        paddingBottom: 18,
-        alignItems: 'flex-end',
-        paddingHorizontal: 16,
     },
     messagesTitle: {
         fontSize: 16,
         color: colors.text.white,
         fontFamily: fonts.primary[600],
-        paddingVertical: 10,
+        marginVertical: 10,
     },
     contactWrapper: {
-        paddingHorizontal: 16,
+        paddingHorizontal: 12,
     },
+    ic_addContact: {
+        alignSelf: 'flex-end',
+        marginBottom: 20,
+    }
 })
