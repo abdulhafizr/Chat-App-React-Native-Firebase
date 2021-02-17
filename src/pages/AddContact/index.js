@@ -29,7 +29,7 @@ const AddContact = ({navigation}) => {
     
     const onChangeText = (value) => null;
     const onPress = (item) => {
-        navigation.navigate('Chatting', {...item});
+        navigation.navigate('DetailContact', {...item});
     }
     const RenderAllUser = ({item}) => (
         <UserItem item={item} onPress={() => onPress(item)} />

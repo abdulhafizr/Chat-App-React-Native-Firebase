@@ -29,7 +29,7 @@ export const styles = StyleSheet.create({
         fontFamily: fonts.primary[400],
     },
     job: {
-        fontSize: 12,
+        fontSize: 10,
         color: colors.text.white3,
         fontFamily: fonts.primary[300],
     },
@@ -37,7 +37,7 @@ export const styles = StyleSheet.create({
         marginTop: 5,
     },
     message: {
-        fontSize: 12,
+        fontSize: 14,
         color: colors.text.white2,
         fontFamily: fonts.primary[400],
     },
