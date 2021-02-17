@@ -10,6 +10,7 @@ const InputChat = ({data}) => {
     const [currentUser, setCurrentUser] = useState({});
     const [message, setMessage] = useState('');
     const [showIcon, setShowIcon] = useState(false);
+    const [showKeyboard, setShowKeyboard] = useState(false);
     
     useEffect(() => {
         getData('user').then((response) => {
@@ -22,7 +23,7 @@ const InputChat = ({data}) => {
     }
     const showIcons = () => {
         setShowIcon(!showIcon);
-        Keyboard.dismiss(); // hide keyboard
+        Keyboard.dismiss; // hide keyboard
     }
     const pickIcon = (emoji) => {
         const messageWithEmoji = `${message}${emoji.code}`;
@@ -30,6 +31,7 @@ const InputChat = ({data}) => {
     }
     const showKeyBoard = () => {
         setShowIcon(false);
+        setShowKeyboard(!showKeyboard);
     }
     const onSent = () => {
         if(message.length !== 0) {
@@ -95,6 +97,7 @@ const InputChat = ({data}) => {
                     style={styles.formInput}
                     onChangeText={(value) => onChangeText(value)}
                     value={message}
+                    multiline
                 />
                 <Icon type='send-ic' style={{marginBottom: 8}} onPress={onSent} />
             </View>
