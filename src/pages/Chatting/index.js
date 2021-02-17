@@ -6,23 +6,27 @@ import { styles } from './styles';
 
 const Chatting = ({navigation, route}) => {
     const {uid : friendUid, name : friendName, photo : friendPhoto} = route.params;
+    const [isInverted, setIsInverted] = useState(false);
     const [messages, setMessages] = useState([]);
     useEffect(() => {
         getData('user').then((currentUser) => {
             firebase.database().ref(`chatting/${currentUser.uid}_${friendUid}`).on('value', (snapshot) => {
                 const allMessages = snapshot.val();
                 if(allMessages) {
+                    let count = 0;
                     const data = [];
                     Object.keys(allMessages).map((keyDate) => {
                         const chatPerDay = [];
                         Object.keys(allMessages[keyDate]).map((keyMessage) => {
                             chatPerDay.push(allMessages[keyDate][keyMessage]);
+                            count++;
                         })
                         data.push({
                             date: keyDate,
                             messeges: chatPerDay
                         });
                     })
+                    setIsInverted(count > 8);
                     setMessages(data);
                 }
             })
@@ -51,7 +55,7 @@ const Chatting = ({navigation, route}) => {
             <HeaderChat name={friendName} photo={friendPhoto} onPress={() => navigation.goBack()} />
             <View style={styles.chatBody}>
                 <FlatList 
-                    inverted
+                    inverted={isInverted}
                     style={styles.chatContent} 
                     contentContainerStyle={{flexDirection: 'column-reverse'}}
                     data={messages}
