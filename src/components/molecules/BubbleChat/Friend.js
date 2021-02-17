@@ -1,15 +1,15 @@
 import React from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { colors, fonts } from '../../../utils';
 
 const Friend = ({photo, message, date}) => {
     return (
         <View style={styles.container}>
             <Image source={{uri: photo}} style={styles.profile} />
-            <View style={styles.messages}>
+            <TouchableOpacity style={styles.messages} onLongPress={() => alert('Long Press')}>
                 <Text style={styles.messageText}>{message}</Text>
                 <Text style={styles.timestamp}>{date}</Text>
-            </View>
+            </TouchableOpacity>
         </View>
     )
 }

@@ -1,13 +1,13 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { colors, fonts } from '../../../utils';
 
 const Me = ({message, date}) => {
     return (
-        <View style={styles.messages}>
+        <TouchableOpacity style={styles.messages} onLongPress={() => alert('Long Press')}>
             <Text style={styles.messageText}>{message}</Text>
             <Text style={styles.timestamp}>{date}</Text>
-        </View>
+        </TouchableOpacity>
     )
 }
 
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     messageText: {
         fontSize: 14,
         color: colors.text.white2,
-        fontFamily: fonts.primary[400]
+        fontFamily: fonts.primary[400],
     },
     timestamp: {
         fontSize: 9,
