@@ -1,13 +1,15 @@
-import React from 'react'
-import { StyleSheet, TouchableOpacity, ActivityIndicator, View } from 'react-native'
+import React from 'react';
+import { TouchableOpacity, ActivityIndicator } from 'react-native';
+import AntIcon from 'react-native-vector-icons/AntDesign';
+import EntIcon from 'react-native-vector-icons/Entypo';
 import { 
     ICGoogle, ICUser, ICUserPlus, 
     ICEdit, ICSignout, ICBackWhite, 
     ICSend, ICRightWhite, BTNMessageActive,
     ICAdd, ICRemove
-} from '../../../assets'
-import { colors } from '../../../utils'
-import BTNIcon from './BTNIcon'
+} from '../../../assets';
+import { colors } from '../../../utils';
+import BTNIcon from './BTNIcon';
 
 const Icon = ({ type, onPress, onLongPress, label, isFocused, isLoading, style, sizeIndicator}) => {
     if(isLoading) {
@@ -40,6 +42,10 @@ const Icon = ({ type, onPress, onLongPress, label, isFocused, isLoading, style, 
                 return <ICAdd />
             case 'remove-ic':
                 return <ICRemove />
+            case 'smile-ic':
+                return <AntIcon name="smileo" size={24} color={colors.text.white2} />
+            case 'keyboard_ic':
+                return <EntIcon name="keyboard" size={24} color={colors.text.white2} />
             default :
                 return <ICUser />
         }
@@ -52,5 +58,3 @@ const Icon = ({ type, onPress, onLongPress, label, isFocused, isLoading, style, 
 }
 
 export default Icon
-
-const styles = StyleSheet.create({})
