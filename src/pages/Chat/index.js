@@ -27,7 +27,7 @@ const Chat = ({navigation}) => {
         })
     }, [navigation]);
 
-    const RenderHeader = () => {
+    const _renderHeader = () => {
         return (
             <>
                 <View style={styles.header}>
@@ -37,8 +37,7 @@ const Chat = ({navigation}) => {
             </>
         )
     }
-    const RenderAllHistory = ({item}) => {
-        console.log(item);
+    const _renderAllHistory = (item) => {
         return (
             <ChatHistory
                 name={item.name}
@@ -53,14 +52,12 @@ const Chat = ({navigation}) => {
         <View style={styles.container}>
             <FlatList 
                 data={historyMessages}
-                ListHeaderComponent={() => <RenderHeader />}
+                ListHeaderComponent={_renderHeader}
                 style={styles.chatHistoryWrapper}
-                renderItem={({item}) => <RenderAllHistory item={item} />}
+                renderItem={({item}) => _renderAllHistory(item)}
                 keyExtractor={(item, index) => index.toString()}
+                showsVerticalScrollIndicator={false}
             />
-            
-            {/* <View style={styles.chatHistoryWrapper}>
-            </View> */}
         </View>
     )
 }

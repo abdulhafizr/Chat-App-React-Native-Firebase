@@ -46,6 +46,7 @@ const AddContact = ({navigation}) => {
                     renderItem={({item}) => <RenderAllUser item={item} />}
                     keyExtractor={(item, index) => index.toString()}
                     ItemSeparatorComponent={() => <View style={{height: 10}} /> }
+                    showsVerticalScrollIndicator={false}
                 />
             </View>
         </View>

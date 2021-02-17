@@ -29,7 +29,7 @@ const Chatting = ({navigation, route}) => {
         })
     }, []);
     
-    const RenderAllMessages = ({item}) => (
+    const _renderAllMessages = (item) => (
         <View>
             <Text style={styles.timestamp}>{item.date}</Text>
             {
@@ -50,8 +50,10 @@ const Chatting = ({navigation, route}) => {
             <HeaderChat name={friendName} photo={friendPhoto} onPress={() => navigation.goBack()} />
             <View style={styles.chatBody}>
                 <FlatList style={styles.chatContent} 
+                    inverted
+                    contentContainerStyle={{flexDirection: 'column-reverse'}}
                     data={messages}
-                    renderItem={({item}) => <RenderAllMessages item={item} />}
+                    renderItem={({item}) => _renderAllMessages(item)}
                     keyExtractor={(item, index) => index.toString()}
                 />
                 <InputChat data={route.params} />
