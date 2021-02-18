@@ -19,5 +19,26 @@ export const styles = StyleSheet.create({
     ic_profile: {
         alignSelf: 'flex-end',
         marginRight: 2,
+    },
+    deleteDialogContainer: {
+        backgroundColor: colors.background.secondary,
+        borderRadius: 4,
+    },
+    buttonDeleteMessages: {
+        backgroundColor: colors.background.error,
+        borderRadius: 2,
+    },
+    buttonCancelMessages: {
+        backgroundColor: colors.background.blue,
+        borderRadius: 2,
+    },
+    titleDeleteMessages: {
+        color: colors.text.white2,
+        paddingLeft: 0,
+        paddingVertical: 10,
+        fontSize: 19,
+    },
+    messageDeleteMessages: {
+        color: colors.text.white3,
     }
 })
