@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { Text, View, FlatList } from 'react-native';
+import { Placeholder, PlaceholderLine, Progressive } from 'rn-placeholder';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import { ChatHistory, Icon } from '../../components';
 import { getData, firebase } from '../../config';
@@ -8,6 +9,8 @@ import { styles } from './styles';
 
 const Chat = ({navigation}) => {
     const [historyMessages, setHistoryMessages] = useState([]);
+    const [historyPlaceholder] = useState([{key: 1}, {key: 2}, {key: 3}, {key: 4}, {key: 5}]);
+    const [isLoading, setIsLoading] = useState(true);
     const [lauchDeleteDialog, setLauchDeleteDialog] = useState(false);
     const [messageDeleteDialog, setMessageDeleteDialog] = useState('');
     const [messegesDeleteUID, setMessegesDeleteUID] = useState('');
@@ -33,6 +36,7 @@ const Chat = ({navigation}) => {
                         })
                         await Promise.all(promises);
                         setHistoryMessages(data);
+                        setIsLoading(false);
                     }
                 })
             }
@@ -58,6 +62,20 @@ const Chat = ({navigation}) => {
                 onPress={() => navigation.navigate('Chatting', {...item})} 
                 onLongPress={() => showDialogDeleteMessages(item.name, item.uid)}
             />
+        )
+    }
+    const _renderPlaceholder = () => {
+        return (
+            <Placeholder
+                Animation={Progressive}
+                style={{height: 115}}
+            >
+                <PlaceholderLine 
+                    height={115}
+                    width={100}
+                    style={{borderRadius: 10, backgroundColor: '#464646'}}
+                />
+            </Placeholder>
         )
     }
    
@@ -92,10 +110,11 @@ const Chat = ({navigation}) => {
     return (
         <View style={{flex: 1}}>
             <FlatList 
-                data={historyMessages}
+                data={isLoading ?  historyPlaceholder : historyMessages}
                 ListHeaderComponent={_renderHeader}
                 style={styles.container}
-                renderItem={_renderAllHistory}
+                ItemSeparatorComponent={() => <View style={{height: 10}} />}
+                renderItem={isLoading ? _renderPlaceholder : _renderAllHistory}
                 keyExtractor={(item, index) => index.toString()}
                 showsVerticalScrollIndicator={false}
             />

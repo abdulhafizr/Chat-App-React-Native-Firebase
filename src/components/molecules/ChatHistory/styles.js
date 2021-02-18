@@ -8,7 +8,6 @@ export const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 4,
         overflow: 'hidden',
-        marginBottom: 10,
     },
     profile: {
         flexDirection: 'row',

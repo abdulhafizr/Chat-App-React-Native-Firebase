@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
 import { Text, View, FlatList } from 'react-native';
 import { ActionSheetCustom as ActionSheet } from 'react-native-actionsheet';
+import { Placeholder, PlaceholderLine, Progressive } from 'rn-placeholder';
 import { Icon, SearchInput, UserItem } from '../../components';
 import { getData, firebase } from '../../config';
 import { errorMessage, successMessage } from '../../utils';
@@ -10,6 +11,8 @@ const Contact = ({navigation}) => {
 
     const [contacts, setContacts] = useState([]);
     const [optionsContacts] = useState(['See Messages', 'View Profile', 'Unfriend', 'Cancel']);
+    const [contactPlaceholder] = useState([{key: 1}, {key: 2}, {key: 3}, {key: 4}, {key: 5}]);
+    const [isLoading, setIsLoading] = useState(true);
     const [user, setUser] = useState({});
     const [detailContact, setDetailContact] = useState({});
     let actionSheet = useRef();
@@ -27,6 +30,7 @@ const Contact = ({navigation}) => {
                             data.push(allContacts[key][key2]);
                         })
                         setContacts(data);
+                        setIsLoading(false);
                     })
                 }
             })
@@ -45,7 +49,7 @@ const Contact = ({navigation}) => {
             <Text style={styles.messagesTitle}>MyContacts</Text>
         </View>
     )
-    const _renderComponent = (item) => (
+    const _renderComponent = ({item}) => (
         <UserItem 
             item={item}
             onPress={() => navigation.navigate('Chatting', item)} 
@@ -55,6 +59,20 @@ const Contact = ({navigation}) => {
             }}
         />
     )
+    const _renderPlaceholder = () => {
+        return (
+            <Placeholder
+                Animation={Progressive}
+                style={{height: 105}}
+            >
+                <PlaceholderLine 
+                    height={105}
+                    width={100}
+                    style={{borderRadius: 10, backgroundColor: '#464646'}}
+                />
+            </Placeholder>
+        )
+    }
     
     const showActionSheet = () => {
         actionSheet.current.show();
@@ -84,11 +102,11 @@ const Contact = ({navigation}) => {
     return (
         <View style={{flex: 1}}>
             <FlatList 
-                data={contacts}
+                data={isLoading ? contactPlaceholder : contacts}
                 style={styles.container}
                 ListHeaderComponent={_renderHeader}
                 contentContainerStyle={styles.contactWrapper}
-                renderItem={({item}) => _renderComponent(item)}
+                renderItem={isLoading ? _renderPlaceholder : _renderComponent}
                 ItemSeparatorComponent={() => <View style={{height: 10}} />}
                 keyExtractor={(item, index) => index.toString()}
             />
