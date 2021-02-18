@@ -27,7 +27,7 @@ const Chatting = ({navigation, route}) => {
                             messeges: chatPerDay
                         });
                     })
-                    setIsInverted(count > 8);
+                    setIsInverted(count > 8 && data.length === 1);
                     setMessages(data);
                 }
             })

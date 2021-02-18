@@ -66,7 +66,9 @@ const Chat = ({navigation}) => {
         .then(() => {
             firebase.database().ref(`chatting/${user.uid}_${messegesDeleteUID}`).remove()
             .then(() => {
-                navigation.replace('MainApp');
+                if(historyMessages.length <= 1 ) {
+                    navigation.replace('MainApp');
+                }
                 setLauchDeleteDialog(!lauchDeleteDialog);
                 successMessage('Messege success deleted!');
             })
