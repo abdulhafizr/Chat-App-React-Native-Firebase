@@ -3,7 +3,7 @@ import { GoogleSignin, statusCodes } from '@react-native-community/google-signin
 import { Text, View } from 'react-native';
 import { Icon } from '../../components';
 import { successMessage, errorMessage } from '../../utils';
-import { firebase, getData, storeData } from '../../config';
+import { firebase, storeData } from '../../config';
 import { styles } from './styles';
 
 const GetStarted = ({navigation}) => {

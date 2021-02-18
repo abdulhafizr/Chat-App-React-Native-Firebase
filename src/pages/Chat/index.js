@@ -15,8 +15,9 @@ const Chat = ({navigation}) => {
     const [user, setUser] = useState({});
 
     useEffect(() => {
+        let isMounted = true;
         getData('user').then((currentUser) => {
-            if(currentUser) {
+            if(currentUser && isMounted) {
                 setUser(currentUser);
                 const rootDB = firebase.database().ref();
                 rootDB.child(`history_chats/${currentUser.uid}`).on('value', async (snapshot) => {
@@ -36,6 +37,7 @@ const Chat = ({navigation}) => {
                 })
             }
         })
+        return () => {isMounted = false};
     }, []);
 
     const _renderHeader = () => {
@@ -60,18 +62,19 @@ const Chat = ({navigation}) => {
     }
    
     const deleteMessages = () => {
-        Promise.all([
-            firebase.database().ref(`history_chats/${user.uid}/${messegesDeleteUID}`).remove(),
-            firebase.database().ref(`chatting/${user.uid}_${messegesDeleteUID}`).remove()
-        ])
+        firebase.database().ref(`history_chats/${user.uid}/${messegesDeleteUID}`).remove()
         .then(() => {
-            setLauchDeleteDialog(!lauchDeleteDialog);
-            successMessage('Messege success deleted!');
+            firebase.database().ref(`chatting/${user.uid}_${messegesDeleteUID}`).remove()
+            .then(() => {
+                navigation.replace('MainApp');
+                setLauchDeleteDialog(!lauchDeleteDialog);
+                successMessage('Messege success deleted!');
+            })
         })
         .catch((error) => {
             setLauchDeleteDialog(!lauchDeleteDialog);
             errorMessage(error.message);
-        })
+        })    
     }
 
     const showDialogDeleteMessages = (name, uid) => {
@@ -80,9 +83,12 @@ const Chat = ({navigation}) => {
         setTitleDeleteDialog(`Delete your messages with ${name}?`);
         setMessageDeleteDialog(`do you wanna delete your messages with ${name}?`);
     }
+    const closeModal = () => {
+        setLauchDeleteDialog(!lauchDeleteDialog)
+    }
 
     return (
-        <>
+        <View style={{flex: 1}}>
             <FlatList 
                 data={historyMessages}
                 ListHeaderComponent={_renderHeader}
@@ -100,7 +106,7 @@ const Chat = ({navigation}) => {
                 confirmText="Delete message"
                 cancelText="Cancel"
 
-                onCancelPressed={() => setLauchDeleteDialog(!lauchDeleteDialog)}
+                onCancelPressed={closeModal}
                 onConfirmPressed={deleteMessages}
 
                 closeOnTouchOutside
@@ -111,7 +117,7 @@ const Chat = ({navigation}) => {
                 cancelButtonStyle={styles.buttonCancelMessages}
                 contentContainerStyle={styles.deleteDialogContainer}
             />
-        </>
+        </View>
     )
 }
 

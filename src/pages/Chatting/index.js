@@ -9,10 +9,11 @@ const Chatting = ({navigation, route}) => {
     const [isInverted, setIsInverted] = useState(false);
     const [messages, setMessages] = useState([]);
     useEffect(() => {
+        let isMounted = true;
         getData('user').then((currentUser) => {
             firebase.database().ref(`chatting/${currentUser.uid}_${friendUid}`).on('value', (snapshot) => {
                 const allMessages = snapshot.val();
-                if(allMessages) {
+                if(allMessages && isMounted) {
                     let count = 0;
                     const data = [];
                     Object.keys(allMessages).map((keyDate) => {
@@ -31,6 +32,7 @@ const Chatting = ({navigation, route}) => {
                 }
             })
         })
+        return () => { isMounted = false};
     }, []);
     
     const _renderAllMessages = (item) => (
