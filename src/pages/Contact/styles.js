@@ -21,5 +21,8 @@ export const styles = StyleSheet.create({
     ic_addContact: {
         alignSelf: 'flex-end',
         marginBottom: 20,
-    }
+    },
+    actionSheet: {
+        backgroundColor: colors.background.secondary
+    } 
 })
