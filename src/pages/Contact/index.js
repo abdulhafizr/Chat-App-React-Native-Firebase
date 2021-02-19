@@ -6,6 +6,7 @@ import { Icon, SearchInput, UserItem } from '../../components';
 import { getData, firebase } from '../../config';
 import { errorMessage, successMessage } from '../../utils';
 import { styles } from './styles';
+import _ from 'lodash';
 
 const Contact = ({navigation}) => {
 
@@ -28,11 +29,13 @@ const Contact = ({navigation}) => {
                         Object.keys(allContacts[key]).map((key2) => {
                             data.push(allContacts[key][key2]);
                         })
-                        setContacts(data);
-                        setTimeout(() => {
-                            setIsLoading(false);
-                        }, 500);
                     })
+                    const sort = _.orderBy(data, ['name'], ['asc']);
+                    setContacts(sort);
+                    setTimeout(() => {
+                        setIsLoading(false);
+                    }, 500);
+
                 }else{
                     setTimeout(() => {
                         setIsLoading(false);

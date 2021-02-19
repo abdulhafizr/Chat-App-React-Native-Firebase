@@ -69,10 +69,12 @@ const InputChat = ({data}) => {
                         historyCol.child(`${friendUid}/${currentUser.uid}`).set({
                             ...historyChat,
                             uid: currentUser.uid,
+                            time: currentDate.getTime(),
                         })
                         historyCol.child(`${currentUser.uid}/${friendUid}`).set({
                             ...historyChat,
                             uid: friendUid,
+                            time: currentDate.getTime(),
                         })
                     })
                     

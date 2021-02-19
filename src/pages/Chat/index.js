@@ -6,6 +6,7 @@ import { ChatHistory, Icon } from '../../components';
 import { getData, firebase } from '../../config';
 import { errorMessage, successMessage } from '../../utils';
 import { styles } from './styles';
+import _ from 'lodash';
 
 const Chat = ({navigation}) => {
     const [historyMessages, setHistoryMessages] = useState([]);
@@ -18,9 +19,8 @@ const Chat = ({navigation}) => {
     const [user, setUser] = useState({});
 
     useEffect(() => {
-        let isMounted = true;
-        getData('user').then((currentUser) => {
-            if(currentUser && isMounted) {
+        const subscribe = getData('user').then((currentUser) => {
+            if(currentUser) {
                 setUser(currentUser);
                 const rootDB = firebase.database().ref();
                 rootDB.child(`history_chats/${currentUser.uid}`).on('value', async (snapshot) => {
@@ -35,7 +35,8 @@ const Chat = ({navigation}) => {
                             })
                         })
                         await Promise.all(promises);
-                        setHistoryMessages(data);
+                        const sort = _.orderBy(data, ['time'], ['desc'])
+                        setHistoryMessages(sort);
                         setTimeout(() => {
                             setIsLoading(false);
                         }, 500);
@@ -47,8 +48,8 @@ const Chat = ({navigation}) => {
                 })
             }
         })
-        return () => {isMounted = false};
-    }, []);
+        return () => subscribe();
+    }, [navigation]);
 
     const _renderHeader = () => {
         return (
