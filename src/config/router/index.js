@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { GetStarted, Chat, Contact, Profile, EditProfile, Chatting, AddContact, DetailContact } from '../../pages';
+import { GetStarted, Chat, Contact, Profile, EditProfile, Chatting, AddContact, DetailContact, Splash } from '../../pages';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomTabNavigatorTheme } from './BottomTabNavigationTheme';
 
@@ -18,13 +18,14 @@ const MainApp = () => {
 const Router = () => {
     const { Navigator, Screen } = createStackNavigator();
     return (
-        <Navigator initialRouteName="GetStarted">
+        <Navigator initialRouteName="Splash">
             <Screen name="MainApp" component={MainApp} options={{headerShown: false}} />
             <Screen name="GetStarted" component={GetStarted} options={{headerShown: false}} />
             <Screen name="EditProfile" component={EditProfile} options={{headerShown: false}} />
             <Screen name="Chatting" component={Chatting} options={{headerShown: false}} />
             <Screen name="AddContact" component={AddContact} options={{headerShown: false}} />
             <Screen name="DetailContact" component={DetailContact} options={{headerShown: false}} />
+            <Screen name="Splash" component={Splash} options={{headerShown: false}} />
         </Navigator>
     )
 }
