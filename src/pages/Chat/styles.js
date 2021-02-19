@@ -23,6 +23,7 @@ export const styles = StyleSheet.create({
     deleteDialogContainer: {
         backgroundColor: colors.background.secondary,
         borderRadius: 4,
+        maxWidth: '93.5%'
     },
     buttonDeleteMessages: {
         backgroundColor: colors.background.error,
@@ -52,5 +53,8 @@ export const styles = StyleSheet.create({
         color: colors.text.white1,
         borderBottomColor: colors.border.primary,
         borderBottomWidth: 1
+    },
+    actionContainerStyle: {
+        justifyContent: 'flex-start'
     },
 })

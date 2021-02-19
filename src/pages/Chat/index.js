@@ -205,6 +205,10 @@ const Chat = ({navigation}) => {
                 confirmButtonStyle={styles.buttonDeleteMessages}
                 cancelButtonStyle={styles.buttonCancelMessages}
                 contentContainerStyle={styles.deleteDialogContainer}
+                actionContainerStyle={styles.actionContainerStyle}
+                confirmButtonTextStyle={{fontSize: 14}}
+                cancelButtonTextStyle={{fontSize: 14}}
+                overlayStyle={{backgroundColor: 'rgba(0,0,0,.55)', height: '100%'}}
             />
         </View>
     )
