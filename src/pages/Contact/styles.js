@@ -24,5 +24,17 @@ export const styles = StyleSheet.create({
     },
     actionSheet: {
         backgroundColor: colors.background.secondary
-    } 
+    },
+    buttomSheet: {
+        maxHeight: '35%',
+        backgroundColor: colors.background.secondary,
+        paddingTop: 0,
+    },
+    buttomSheetText: {
+        fontSize: 15,
+        padding: 10,
+        color: colors.text.white1,
+        borderColor: colors.border.disable,
+        borderWidth: 1,
+    }
 })

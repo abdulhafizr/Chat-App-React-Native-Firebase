@@ -36,7 +36,13 @@ const Chat = ({navigation}) => {
                         })
                         await Promise.all(promises);
                         setHistoryMessages(data);
-                        setIsLoading(false);
+                        setTimeout(() => {
+                            setIsLoading(false);
+                        }, 500);
+                    }else{
+                        setTimeout(() => {
+                            setIsLoading(false);
+                        }, 500);
                     }
                 })
             }

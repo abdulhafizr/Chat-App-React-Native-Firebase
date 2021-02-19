@@ -3,7 +3,8 @@ import { colors, fonts } from '../../../utils';
 
 export const styles = StyleSheet.create({
     container: {
-        padding: 13,
+        paddingHorizontal: 13,
+        paddingVertical: 10,
         borderColor: colors.border.primary,
         borderWidth: 1,
         borderRadius: 4,

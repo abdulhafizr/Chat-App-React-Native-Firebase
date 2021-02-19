@@ -1,7 +1,7 @@
-import React, {useState, useEffect, useRef} from 'react';
-import { Text, View, FlatList } from 'react-native';
-import { ActionSheetCustom as ActionSheet } from 'react-native-actionsheet';
+import React, {useState, useEffect} from 'react';
+import { Text, View, FlatList, TouchableOpacity } from 'react-native';
 import { Placeholder, PlaceholderLine, Progressive } from 'rn-placeholder';
+import { SwipeablePanel } from 'rn-swipeable-panel';
 import { Icon, SearchInput, UserItem } from '../../components';
 import { getData, firebase } from '../../config';
 import { errorMessage, successMessage } from '../../utils';
@@ -10,12 +10,11 @@ import { styles } from './styles';
 const Contact = ({navigation}) => {
 
     const [contacts, setContacts] = useState([]);
-    const [optionsContacts] = useState(['See Messages', 'View Profile', 'Unfriend', 'Cancel']);
     const [contactPlaceholder] = useState([{key: 1}, {key: 2}, {key: 3}, {key: 4}, {key: 5}]);
     const [isLoading, setIsLoading] = useState(true);
     const [user, setUser] = useState({});
     const [detailContact, setDetailContact] = useState({});
-    let actionSheet = useRef();
+    const [showBottomSheet, setShowBottomSheet] = useState(false);
 
     useEffect(() => {
         let isDidMount = true;
@@ -30,8 +29,14 @@ const Contact = ({navigation}) => {
                             data.push(allContacts[key][key2]);
                         })
                         setContacts(data);
-                        setIsLoading(false);
+                        setTimeout(() => {
+                            setIsLoading(false);
+                        }, 500);
                     })
+                }else{
+                    setTimeout(() => {
+                        setIsLoading(false);
+                    }, 500);
                 }
             })
         })
@@ -54,7 +59,7 @@ const Contact = ({navigation}) => {
             item={item}
             onPress={() => navigation.navigate('Chatting', item)} 
             onLongPress={() => {
-                showActionSheet();
+                _showActionSheet();
                 setDetailContact(item);
             }}
         />
@@ -73,30 +78,25 @@ const Contact = ({navigation}) => {
             </Placeholder>
         )
     }
-    
-    const showActionSheet = () => {
-        actionSheet.current.show();
-    }
-    const action = (option) => {
-        switch(option) {
-            case 'See Messages':
-                navigation.navigate('Chatting', detailContact);
-                break;
-            case 'View Profile':
-                navigation.navigate('DetailContact', detailContact);
-                break;
-            case 'Unfriend':
-                unFriend();
-                break;
-        }
-    }
+
     const unFriend = () => {
-        firebase.database().ref(`contacts/${user.uid}/${detailContact.uid}`).remove().then((response) => {
+        firebase.database().ref(`contacts/${user.uid}/${detailContact.uid}`).remove().then(() => {
+            if(contacts.length <= 1) {
+                navigation.replace('MainApp');
+            }
             successMessage(`${detailContact.name} success remove from mycontact`);
+            _closeActionSheet();
         })
         .catch((error) => {
             errorMessage(`${detailContact.name} failed to remove from mycontact, ${error.message}`);
         })
+    }
+
+    const _showActionSheet = (chat) => {
+        setShowBottomSheet(true);
+    }
+    const _closeActionSheet = () => {
+        setShowBottomSheet(false)
     }
 
     return (
@@ -110,13 +110,34 @@ const Contact = ({navigation}) => {
                 ItemSeparatorComponent={() => <View style={{height: 10}} />}
                 keyExtractor={(item, index) => index.toString()}
             />
-            <ActionSheet 
-                ref={actionSheet}
-                options={optionsContacts}
-                cancelButtonIndex={3}
-                destructiveButtonIndex={3}
-                onPress={(index) => action(optionsContacts[index])}
-            />
+            <SwipeablePanel 
+                isActive={showBottomSheet}
+                fullWidth={true}
+                openLarge={true}
+                closeOnTouchOutside={true}
+                onClose={_closeActionSheet}
+                onPressCloseButton={_closeActionSheet}
+                style={styles.buttomSheet}
+            >
+                <TouchableOpacity onPress={() => {
+                    navigation.navigate('DetailContact', detailContact)
+                    _closeActionSheet();
+                }}>
+                    <Text style={styles.buttomSheetText}>View Profile</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => {
+                    navigation.navigate('Chatting', detailContact)
+                    _closeActionSheet();
+                }}>
+                    <Text style={styles.buttomSheetText}>View Messages</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={unFriend}>
+                    <Text style={styles.buttomSheetText}>Unfriend</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={_closeActionSheet}>
+                    <Text style={styles.buttomSheetText}>Cancel</Text>
+                </TouchableOpacity>
+            </SwipeablePanel>
         </View>
     )
 }
