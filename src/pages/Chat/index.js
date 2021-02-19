@@ -165,7 +165,9 @@ const Chat = ({navigation}) => {
                     <Text style={styles.buttomSheetText}>View Profile</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => {
-                    showDialogDeleteMessages();
+                    setTimeout(() => {
+                        showDialogDeleteMessages();
+                    }, 500)
                     _closeActionSheet();
                 }}>
                     <Text style={styles.buttomSheetText}>Delete Messages</Text>
