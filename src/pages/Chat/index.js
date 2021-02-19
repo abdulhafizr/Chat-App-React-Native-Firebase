@@ -13,6 +13,7 @@ const Chat = ({navigation}) => {
     const [historyMessages, setHistoryMessages] = useState([]);
     const [historyPlaceholder] = useState([{key: 1}, {key: 2}, {key: 3}, {key: 4}, {key: 5}]);
     const [isLoading, setIsLoading] = useState(true);
+    const [detailContact, setDetailContact] = useState({});
     const [showBottomSheet, setShowBottomSheet] = useState(false);
     const [lauchDeleteDialog, setLauchDeleteDialog] = useState(false);
     const [messageDeleteDialog, setMessageDeleteDialog] = useState('');
@@ -70,7 +71,10 @@ const Chat = ({navigation}) => {
                 photo={item.photo}
                 message={item.message}
                 onPress={() => navigation.navigate('Chatting', {...item})} 
-                onLongPress={_showActionSheet}
+                onLongPress={() => {
+                    _showActionSheet();
+                    setDetailContact(item);
+                }}
             />
         )
     }
@@ -106,6 +110,15 @@ const Chat = ({navigation}) => {
             errorMessage(error.message);
         })    
     }
+    const unFriend = () => {
+        firebase.database().ref(`contacts/${user.uid}/${detailContact.uid}`).remove().then(() => {
+            successMessage(`${detailContact.name} success remove from mycontact`);
+            _closeActionSheet();
+        })
+        .catch((error) => {
+            errorMessage(`${detailContact.name} failed to remove from mycontact, ${error.message}`);
+        })
+    }
 
     const _showActionSheet = () => {
         setShowBottomSheet(true);
@@ -114,11 +127,12 @@ const Chat = ({navigation}) => {
         setShowBottomSheet(false)
     }
 
-    const showDialogDeleteMessages = (name, uid) => {
+    const showDialogDeleteMessages = () => {
+        closeModal();
         setLauchDeleteDialog(!lauchDeleteDialog);
-        setMessegesDeleteUID(uid);
-        setTitleDeleteDialog(`Delete your messages with ${name}?`);
-        setMessageDeleteDialog(`do you wanna delete your messages with ${name}?`);
+        setMessegesDeleteUID(detailContact.uid);
+        setTitleDeleteDialog(`Delete your messages with ${detailContact.name}?`);
+        setMessageDeleteDialog(`do you wanna delete your messages with ${detailContact.name}?`);
     }
     const closeModal = () => {
         setLauchDeleteDialog(!lauchDeleteDialog)
@@ -139,26 +153,30 @@ const Chat = ({navigation}) => {
             <SwipeablePanel 
                 isActive={showBottomSheet}
                 fullWidth={true}
-                // openLarge={true}
-                // onlySmall
                 closeOnTouchOutside={true}
                 onClose={_closeActionSheet}
                 onPressCloseButton={_closeActionSheet}
                 style={styles.buttomSheet}
             >
                 <TouchableOpacity onPress={() => {
-                    // navigation.navigate('DetailContact', detailContact)
+                    navigation.navigate('DetailContact', detailContact)
                     _closeActionSheet();
                 }}>
                     <Text style={styles.buttomSheetText}>View Profile</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => {
-                    // navigation.navigate('Chatting', detailContact)
+                    showDialogDeleteMessages();
+                    _closeActionSheet();
+                }}>
+                    <Text style={styles.buttomSheetText}>Delete Messages</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => {
+                    navigation.navigate('Chatting', detailContact)
                     _closeActionSheet();
                 }}>
                     <Text style={styles.buttomSheetText}>View Messages</Text>
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={unFriend}>
                     <Text style={styles.buttomSheetText}>Unfriend</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={_closeActionSheet}>
