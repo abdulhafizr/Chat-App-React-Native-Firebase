@@ -7,7 +7,8 @@ const SearchInput = ({onChangeText}) => {
         <TextInput 
             placeholder="Search..." 
             placeholderTextColor ={colors.text.secondary}
-            onChangeText={(value) => onChangeText(value)} style={styles.SearchInput} 
+            style={styles.SearchInput} 
+            onChangeText={(value) => onChangeText(value)} 
         />
     )
 }

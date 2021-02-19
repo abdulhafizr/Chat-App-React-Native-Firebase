@@ -11,6 +11,7 @@ import _ from 'lodash';
 const Contact = ({navigation}) => {
 
     const [contacts, setContacts] = useState([]);
+    const [allContacts, setAllContacts] = useState([]);
     const [contactPlaceholder] = useState([{key: 1}, {key: 2}, {key: 3}, {key: 4}, {key: 5}]);
     const [isLoading, setIsLoading] = useState(true);
     const [user, setUser] = useState({});
@@ -18,7 +19,7 @@ const Contact = ({navigation}) => {
     const [showBottomSheet, setShowBottomSheet] = useState(false);
 
     useEffect(() => {
-        let isDidMount = true;
+        let isDidMount = true; 
         getData('user').then((currentUser) => {
             setUser(currentUser);
             firebase.database().ref(`contacts/${currentUser.uid}`).on('value', (snapshot) => {
@@ -32,6 +33,7 @@ const Contact = ({navigation}) => {
                     })
                     const sort = _.orderBy(data, ['name'], ['asc']);
                     setContacts(sort);
+                    setAllContacts(sort);
                     setTimeout(() => {
                         setIsLoading(false);
                     }, 500);
@@ -47,16 +49,18 @@ const Contact = ({navigation}) => {
         return () => {isDidMount = false};
     }, [])
 
-    // const onChangeText = (value) => {
-    //     console.log(value);
-    // }
-    const _renderHeader = () => (
-        <View style={styles.header}>
-            <Icon type="user-plus-ic" onPress={() => navigation.navigate('AddContact')} style={styles.ic_addContact} />
-            <SearchInput onChangeText={(value) => null} />
-            <Text style={styles.messagesTitle}>MyContacts</Text>
-        </View>
-    )
+    const _handleSearching = (keyword) => {
+        const formatedQuery = keyword.toLowerCase();
+        if(formatedQuery.length >= 1) {
+            const data = _.filter(contacts, (contact) => {
+                const name = contact.name.toLowerCase();
+                if(name.includes(formatedQuery)) return contact;
+            });
+            setContacts(data);
+        }else{
+            setContacts(allContacts);
+        }
+    }
     const _renderComponent = ({item}) => (
         <UserItem 
             item={item}
@@ -103,13 +107,17 @@ const Contact = ({navigation}) => {
     }
 
     return (
-        <View style={{flex: 1}}>
+        <View style={styles.container}>
+            <View style={styles.header}>
+                <Icon type="user-plus-ic" onPress={() => navigation.navigate('AddContact')} style={styles.ic_addContact} />
+                <SearchInput onChangeText={(value) => _handleSearching(value)} />
+                <Text style={styles.messagesTitle}>MyContacts</Text>
+            </View>
             <FlatList 
                 data={isLoading ? contactPlaceholder : contacts}
-                style={styles.container}
-                ListHeaderComponent={_renderHeader}
                 contentContainerStyle={styles.contactWrapper}
                 renderItem={isLoading ? _renderPlaceholder : _renderComponent}
+                showsVerticalScrollIndicator={false}
                 ItemSeparatorComponent={() => <View style={{height: 10}} />}
                 keyExtractor={(item, index) => index.toString()}
             />

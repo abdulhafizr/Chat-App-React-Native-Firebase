@@ -4,9 +4,11 @@ import { Placeholder, PlaceholderLine, Progressive } from 'rn-placeholder';
 import { Gap, SearchInput, UserItem } from '../../components';
 import { firebase, getData } from '../../config';
 import { styles } from './styles';
+import _ from 'lodash';
 
 const AddContact = ({navigation}) => {
     const [user, setUser] = useState([]);
+    const [allUser, setAllUser] = useState([]);
     const [contactPlaceholder] = useState([{key: 1}, {key: 2}, {key: 3}, {key: 4}, {key: 5}, {key: 6}, {key: 7}]);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -24,18 +26,32 @@ const AddContact = ({navigation}) => {
                     }
                 })
                 setUser(data);
+                setAllUser(data);
                 setIsLoading(false);
             })
         })
 
     }, [])
     
-    const onChangeText = (value) => null;
-    const onPress = (item) => {
+    const _handleSearching = (keyword) => {
+        const formatedQuery = keyword.toLowerCase();
+        if(formatedQuery.length >= 1) {
+            const data = _.filter(user, (user) => {
+                const name = user.name.toLowerCase();
+                if(name.includes(formatedQuery)) return user;
+            });
+            setUser(data);
+        }else{
+            setUser(allUser);
+        }
+    }
+    
+    const _handleDetailContact = (item) => {
         navigation.navigate('DetailContact', {...item});
     }
+
     const _renderAllUser = ({item}) => (
-        <UserItem item={item} onPress={() => onPress(item)} />
+        <UserItem item={item} onPress={() => _handleDetailContact(item)} />
     )
     const _renderPlaceholder = () => {
         return (
@@ -56,7 +72,7 @@ const AddContact = ({navigation}) => {
         <View style={styles.container}>
             <Gap height={25} />
             <View style={styles.contactWrapper}>
-                <SearchInput onChangeText={(value) => onChangeText(value)} />
+                <SearchInput onChangeText={(value) => _handleSearching(value)} />
                 <Gap height={15} />
                 <FlatList
                     data={isLoading ? contactPlaceholder : user}
