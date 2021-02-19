@@ -1232,6 +1232,11 @@
   dependencies:
     deep-assign "^3.0.0"
 
+"@react-native-clipboard/clipboard@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@react-native-clipboard/clipboard/-/clipboard-1.6.0.tgz#27d7a6751bca44c5cee06744e093a891374960f7"
+  integrity sha512-WiD3bK8+b4k4aVMQ0AzPGlJG6Y/8tMq/nkBUdmoMFOBa6bByoE2jfSCLkObDWZG6Ig0F0zBz082FFyNrSZ9QNA==
+
 "@react-native-community/cli-debugger-ui@^4.13.1":
   version "4.13.1"
   resolved "https://registry.yarnpkg.com/@react-native-community/cli-debugger-ui/-/cli-debugger-ui-4.13.1.tgz#07de6d4dab80ec49231de1f1fbf658b4ad39b32c"
@@ -6493,6 +6498,13 @@ react-native-scrollable-tab-view@^1.0.0:
     prop-types "^15.6.0"
     react-timer-mixin "^0.13.3"
 
+react-native-simple-bottom-sheet@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-simple-bottom-sheet/-/react-native-simple-bottom-sheet-1.0.1.tgz#9a6c7ce9f41fbcb3c0c38ca4c9547a7d7d8fb265"
+  integrity sha512-78uB02Cgy5VPldf+kcjs+3Yp39bzHVK2KR5ea6wwzYUP5fSpBs5zINqSWhiJHbwCgrwL4z/Vmd8bCQKg6V6xuA==
+  dependencies:
+    prop-types "^15.7.2"
+
 react-native-svg-transformer@^0.14.3:
   version "0.14.3"
   resolved "https://registry.yarnpkg.com/react-native-svg-transformer/-/react-native-svg-transformer-0.14.3.tgz#43c8e176f5a11f16f39b87a64018e0ac090ffbdb"
@@ -6856,6 +6868,13 @@ rn-placeholder@^3.0.3:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/rn-placeholder/-/rn-placeholder-3.0.3.tgz#98f635b263ee003af2a984eed32d86ade308df35"
   integrity sha512-EmVeLT8zDcTPilQZ2OHO/IiYUy2gApKGgbshDZBX0C4qxsn0cFATwgwOwyz8O7Vwg1Hul97Ci95hu7d6Js6XMQ==
+
+rn-swipeable-panel@^1.2.3, rn-swipeable-panel@^1.2.5:
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/rn-swipeable-panel/-/rn-swipeable-panel-1.2.5.tgz#a531046a27e21e67b0afae987f9b90e911b20b99"
+  integrity sha512-abgBI8lbvlU4M5MKQrx/1sFR7yKJjvC1M377xaDCq7S1ZDGkVF/wghRwq4aA+w8ehYKtY6q3dfuZucz9uIGhYg==
+  dependencies:
+    rn-swipeable-panel "^1.2.3"
 
 rsvp@^4.8.4:
   version "4.8.5"

@@ -2,11 +2,11 @@ import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { colors, fonts } from '../../../utils';
 
-const Friend = ({photo, message, date}) => {
+const Friend = ({photo, message, onLongPress, date}) => {
     return (
         <View style={styles.container}>
             <Image source={{uri: photo}} style={styles.profile} />
-            <TouchableOpacity style={styles.messages} onLongPress={() => alert('Long Press')}>
+            <TouchableOpacity style={styles.messages} onLongPress={onLongPress}>
                 <Text style={styles.messageText}>{message}</Text>
                 <Text style={styles.timestamp}>{date}</Text>
             </TouchableOpacity>

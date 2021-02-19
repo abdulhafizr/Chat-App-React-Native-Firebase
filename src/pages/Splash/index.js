@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { GoogleSignin, statusCodes } from '@react-native-community/google-signin';
+import { GoogleSignin } from '@react-native-community/google-signin';
 import { firebase } from '../../config';
 import { colors, fonts } from '../../utils';
 

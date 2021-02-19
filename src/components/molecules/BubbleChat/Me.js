@@ -2,9 +2,9 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { colors, fonts } from '../../../utils';
 
-const Me = ({message, date}) => {
+const Me = ({message, onLongPress, date}) => {
     return (
-        <TouchableOpacity style={styles.messages} onLongPress={() => alert('Long Press')}>
+        <TouchableOpacity style={styles.messages} onLongPress={onLongPress}>
             <Text style={styles.messageText}>{message}</Text>
             <Text style={styles.timestamp}>{date}</Text>
         </TouchableOpacity>
