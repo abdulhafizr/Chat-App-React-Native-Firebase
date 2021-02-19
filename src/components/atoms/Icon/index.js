@@ -51,7 +51,7 @@ const Icon = ({ type, onPress, onLongPress, label, isFocused, isLoading, style, 
         }
     }
     return (
-        <TouchableOpacity onPress={onPress} onLongPress={onLongPress} style={[{...style}, {padding: 5}]}>
+        <TouchableOpacity onPress={onPress} onLongPress={onLongPress} style={[{...style}, {padding: 5, paddingHorizontal: 2}]}>
             <IconChild />
         </TouchableOpacity>
     )

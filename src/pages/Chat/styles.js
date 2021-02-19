@@ -40,5 +40,17 @@ export const styles = StyleSheet.create({
     },
     messageDeleteMessages: {
         color: colors.text.white3,
-    }
+    },
+    buttomSheet: {
+        backgroundColor: colors.background.primary,
+        paddingTop: 0,
+    },
+    buttomSheetText: {
+        fontSize: 15,
+        paddingHorizontal: 10,
+        paddingVertical: 20,
+        color: colors.text.white1,
+        borderBottomColor: colors.border.primary,
+        borderBottomWidth: 1
+    },
 })

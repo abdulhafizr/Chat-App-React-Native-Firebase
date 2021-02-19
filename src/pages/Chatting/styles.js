@@ -25,15 +25,15 @@ export const styles = StyleSheet.create({
         fontFamily: fonts.primary[300],
     },
     buttomSheet: {
-        maxHeight: '35%',
-        backgroundColor: colors.background.secondary,
+        backgroundColor: colors.background.primary,
         paddingTop: 0,
     },
     buttomSheetText: {
         fontSize: 15,
-        padding: 10,
+        paddingHorizontal: 10,
+        paddingVertical: 20,
         color: colors.text.white1,
-        borderColor: colors.border.disable,
-        borderWidth: 1,
-    }
+        borderBottomColor: colors.border.primary,
+        borderBottomWidth: 1
+    },
 })

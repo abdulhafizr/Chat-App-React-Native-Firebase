@@ -99,7 +99,7 @@ const Contact = ({navigation}) => {
         })
     }
 
-    const _showActionSheet = (chat) => {
+    const _showActionSheet = () => {
         setShowBottomSheet(true);
     }
     const _closeActionSheet = () => {
@@ -124,7 +124,6 @@ const Contact = ({navigation}) => {
             <SwipeablePanel 
                 isActive={showBottomSheet}
                 fullWidth={true}
-                openLarge={true}
                 closeOnTouchOutside={true}
                 onClose={_closeActionSheet}
                 onPressCloseButton={_closeActionSheet}

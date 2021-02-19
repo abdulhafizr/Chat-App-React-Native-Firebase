@@ -91,7 +91,6 @@ const Chatting = ({navigation, route}) => {
             <SwipeablePanel 
                 isActive={showBottomSheet}
                 fullWidth={true}
-                openLarge={true}
                 closeOnTouchOutside={true}
                 onClose={_closeActionSheet}
                 onPressCloseButton={_closeActionSheet}

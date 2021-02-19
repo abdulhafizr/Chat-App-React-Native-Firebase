@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import { Text, View, FlatList } from 'react-native';
-import { Placeholder, PlaceholderLine, Progressive } from 'rn-placeholder';
 import AwesomeAlert from 'react-native-awesome-alerts';
+import { Text, View, FlatList, TouchableOpacity } from 'react-native';
+import { Placeholder, PlaceholderLine, Progressive } from 'rn-placeholder';
+import { SwipeablePanel } from 'rn-swipeable-panel';
 import { ChatHistory, Icon } from '../../components';
 import { getData, firebase } from '../../config';
 import { errorMessage, successMessage } from '../../utils';
@@ -12,6 +13,7 @@ const Chat = ({navigation}) => {
     const [historyMessages, setHistoryMessages] = useState([]);
     const [historyPlaceholder] = useState([{key: 1}, {key: 2}, {key: 3}, {key: 4}, {key: 5}]);
     const [isLoading, setIsLoading] = useState(true);
+    const [showBottomSheet, setShowBottomSheet] = useState(false);
     const [lauchDeleteDialog, setLauchDeleteDialog] = useState(false);
     const [messageDeleteDialog, setMessageDeleteDialog] = useState('');
     const [messegesDeleteUID, setMessegesDeleteUID] = useState('');
@@ -19,13 +21,14 @@ const Chat = ({navigation}) => {
     const [user, setUser] = useState({});
 
     useEffect(() => {
-        const subscribe = getData('user').then((currentUser) => {
+        let isDidMount = true;
+        getData('user').then((currentUser) => {
             if(currentUser) {
                 setUser(currentUser);
                 const rootDB = firebase.database().ref();
                 rootDB.child(`history_chats/${currentUser.uid}`).on('value', async (snapshot) => {
                     const allHistoryMessages = snapshot.val();
-                    if(allHistoryMessages) {
+                    if(allHistoryMessages && isDidMount) {
                         const data = [];
                         const promises = await Object.keys(allHistoryMessages).map(async (key) => {
                             const friendInfo = await rootDB.child(`users/${allHistoryMessages[key].uid}`).once('value');
@@ -48,8 +51,8 @@ const Chat = ({navigation}) => {
                 })
             }
         })
-        return () => subscribe();
-    }, [navigation]);
+        return () => {isDidMount = false};
+    }, []);
 
     const _renderHeader = () => {
         return (
@@ -67,7 +70,7 @@ const Chat = ({navigation}) => {
                 photo={item.photo}
                 message={item.message}
                 onPress={() => navigation.navigate('Chatting', {...item})} 
-                onLongPress={() => showDialogDeleteMessages(item.name, item.uid)}
+                onLongPress={_showActionSheet}
             />
         )
     }
@@ -104,6 +107,13 @@ const Chat = ({navigation}) => {
         })    
     }
 
+    const _showActionSheet = () => {
+        setShowBottomSheet(true);
+    }
+    const _closeActionSheet = () => {
+        setShowBottomSheet(false)
+    }
+
     const showDialogDeleteMessages = (name, uid) => {
         setLauchDeleteDialog(!lauchDeleteDialog);
         setMessegesDeleteUID(uid);
@@ -125,6 +135,37 @@ const Chat = ({navigation}) => {
                 keyExtractor={(item, index) => index.toString()}
                 showsVerticalScrollIndicator={false}
             />
+
+            <SwipeablePanel 
+                isActive={showBottomSheet}
+                fullWidth={true}
+                // openLarge={true}
+                // onlySmall
+                closeOnTouchOutside={true}
+                onClose={_closeActionSheet}
+                onPressCloseButton={_closeActionSheet}
+                style={styles.buttomSheet}
+            >
+                <TouchableOpacity onPress={() => {
+                    // navigation.navigate('DetailContact', detailContact)
+                    _closeActionSheet();
+                }}>
+                    <Text style={styles.buttomSheetText}>View Profile</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => {
+                    // navigation.navigate('Chatting', detailContact)
+                    _closeActionSheet();
+                }}>
+                    <Text style={styles.buttomSheetText}>View Messages</Text>
+                </TouchableOpacity>
+                <TouchableOpacity>
+                    <Text style={styles.buttomSheetText}>Unfriend</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={_closeActionSheet}>
+                    <Text style={styles.buttomSheetText}>Cancel</Text>
+                </TouchableOpacity>
+            </SwipeablePanel>
+
             <AwesomeAlert 
                 show={lauchDeleteDialog}
                 title={titleDeleteDialog}
