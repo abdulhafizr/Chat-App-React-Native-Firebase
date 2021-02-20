@@ -16,78 +16,47 @@ const Chat = ({navigation}) => {
     const [showBottomSheet, setShowBottomSheet] = useState(false);
     const [lauchDeleteDialog, setLauchDeleteDialog] = useState(false);
     const [user, setUser] = useState({});
+    const [isRefresh, setIsRefresh] = useState(false);
 
     useEffect(() => {
         let isDidMount = true;
         getData('user').then((currentUser) => {
-            if(currentUser) {
+            if(isDidMount) {
                 setUser(currentUser);
-                const rootDB = firebase.database().ref();
-                rootDB.child(`history_chats/${currentUser.uid}`).on('value', async (snapshot) => {
-                    const allHistoryMessages = snapshot.val();
-                    if(allHistoryMessages && isDidMount) {
-                        const data = [];
-                        const promises = await Object.keys(allHistoryMessages).map(async (key) => {
-                            const friendInfo = await rootDB.child(`users/${allHistoryMessages[key].uid}`).once('value');
-                            data.push({
-                                ...allHistoryMessages[key],
-                                ...friendInfo.val()
-                            })
-                        })
-                        await Promise.all(promises);
-                        const sort = _.orderBy(data, ['time'], ['desc'])
-                        setHistoryMessages(sort);
-                        setTimeout(() => {
-                            setIsLoading(false);
-                        }, 500);
-                    }else{
-                        setTimeout(() => {
-                            setIsLoading(false);
-                        }, 500);
-                    }
-                })
+                _getHistoryMessages(currentUser);
             }
         })
         return () => {isDidMount = false};
     }, []);
 
-    const _renderHeader = () => {
-        return (
-            <View style={styles.header}>
-                <Icon type="user-ic" onPress={() => navigation.navigate('Profile')} style={styles.ic_profile} />
-                <Text style={styles.messagesTitle}>Messages</Text>
-            </View>
-        )
-    }
-    const _renderAllHistory = ({item}) => {
-        return (
-            <ChatHistory
-                name={item.name}
-                profession={item.profession}
-                photo={item.photo}
-                message={item.message.length > 200 ? limitText(item.message) : item.message}
-                style={{marginHorinzontal: 12}}
-                onPress={() => navigation.navigate('Chatting', {...item})} 
-                onLongPress={() => {
-                    _showActionSheet();
-                    setDetailContact(item);
-                }}
-            />
-        )
-    }
-    const _renderPlaceholder = () => {
-        return (
-            <Placeholder
-                Animation={Progressive}
-                style={{height: 115}}
-            >
-                <PlaceholderLine 
-                    height={115}
-                    width={100}
-                    style={{borderRadius: 10, backgroundColor: '#464646'}}
-                />
-            </Placeholder>
-        )
+    const _getHistoryMessages = (currentUser) => {
+        setIsLoading(true);
+        const rootDB = firebase.database().ref();
+        rootDB.child(`history_chats/${currentUser.uid}`).on('value', async (snapshot) => {
+            const allHistoryMessages = snapshot.val();
+            if(allHistoryMessages) {
+                const data = [];
+                const promises = await Object.keys(allHistoryMessages).map(async (key) => {
+                    const friendInfo = await rootDB.child(`users/${allHistoryMessages[key].uid}`).once('value');
+                    data.push({
+                        ...allHistoryMessages[key],
+                        ...friendInfo.val()
+                    })
+                })
+                await Promise.all(promises);
+                const sort = _.orderBy(data, ['time'], ['desc'])
+                setHistoryMessages(sort);
+                setTimeout(() => {
+                    setIsLoading(false);
+                    setIsRefresh(false);
+                }, 500);
+            }else{
+                setTimeout(() => {
+                    setIsLoading(false);
+                    setIsRefresh(false);
+                }, 500);
+            }
+        })
     }
    
     const _deleteMessagesFromAPI = () => {
@@ -131,6 +100,45 @@ const Chat = ({navigation}) => {
         setLauchDeleteDialog(!lauchDeleteDialog);
     }
 
+    const _renderHeader = () => {
+        return (
+            <View style={styles.header}>
+                <Icon type="user-ic" onPress={() => navigation.navigate('Profile')} style={styles.ic_profile} />
+                <Text style={styles.messagesTitle}>Messages</Text>
+            </View>
+        )
+    }
+    const _renderAllHistory = ({item}) => {
+        return (
+            <ChatHistory
+                name={item.name}
+                profession={item.profession}
+                photo={item.photo}
+                message={item.message.length > 200 ? limitText(item.message) : item.message}
+                style={{marginHorinzontal: 12}}
+                onPress={() => navigation.navigate('Chatting', {...item})} 
+                onLongPress={() => {
+                    _showActionSheet();
+                    setDetailContact(item);
+                }}
+            />
+        )
+    }
+    const _renderPlaceholder = () => {
+        return (
+            <Placeholder
+                Animation={Progressive}
+                style={{height: 115}}
+            >
+                <PlaceholderLine 
+                    height={115}
+                    width={100}
+                    style={{borderRadius: 10, backgroundColor: '#464646'}}
+                />
+            </Placeholder>
+        )
+    }
+
     return (
         <View style={{flex: 1}}>
             <FlatList 
@@ -141,6 +149,11 @@ const Chat = ({navigation}) => {
                 renderItem={isLoading ? _renderPlaceholder : _renderAllHistory}
                 keyExtractor={(item, index) => index.toString()}
                 showsVerticalScrollIndicator={false}
+                refreshing={isRefresh}
+                onRefresh={() => {
+                    setIsRefresh(true);
+                    _getHistoryMessages(user);
+                }}
             />
 
             <SwipeablePanel 

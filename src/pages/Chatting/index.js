@@ -107,7 +107,11 @@ const Chatting = ({navigation, route}) => {
     return (
         <View style={{flex: 1}}>
             <View style={styles.container}>
-                <HeaderChat name={friendName} photo={friendPhoto} onPress={() => navigation.goBack()} />
+                <HeaderChat 
+                    name={friendName} 
+                    photo={friendPhoto} 
+                    onPress={() => navigation.goBack()} 
+                />
                 <View style={styles.chatBody}>
                     <FlatList 
                         inverted={isInverted}
