@@ -25,9 +25,11 @@ const AddContact = ({navigation}) => {
                         })
                     }
                 })
+                setTimeout(() => {
+                    setIsLoading(false);
+                }, 500)
                 setUser(data);
                 setAllUser(data);
-                setIsLoading(false);
             })
         })
 
