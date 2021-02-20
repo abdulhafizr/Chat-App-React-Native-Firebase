@@ -1,5 +1,5 @@
-import { showMessage } from "react-native-flash-message"
-import { colors } from "../colors"
+import { showMessage } from "react-native-flash-message";
+import { colors } from "../colors";
 
 export const successMessage = (message) => (
     showMessage({

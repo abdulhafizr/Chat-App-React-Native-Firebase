@@ -5,7 +5,7 @@ import { Placeholder, PlaceholderLine, Progressive } from 'rn-placeholder';
 import { SwipeablePanel } from 'rn-swipeable-panel';
 import { ChatHistory, Icon } from '../../components';
 import { getData, firebase } from '../../config';
-import { errorMessage, successMessage, unFriend } from '../../utils';
+import { deleteChatting, deleteHistoryChat, errorMessage, successMessage, unFriend } from '../../utils';
 import { styles } from './styles';
 import _ from 'lodash';
 
@@ -92,22 +92,19 @@ const Chat = ({navigation}) => {
         )
     }
    
-    const _deleteMessageFromAPI = () => {
-        firebase.database().ref(`history_chats/${user.uid}/${detailContact.uid}`).remove()
-        .then(() => {
-            firebase.database().ref(`chatting/${user.uid}_${detailContact.uid}`).remove()
-            .then(() => {
+    const _deleteMessagesFromAPI = () => {
+        deleteHistoryChat(user.uid, detailContact.uid).then(() => {
+            deleteChatting(user.uid, detailContact.uid).then(() => {
                 if(historyMessages.length <= 1 ) {
                     navigation.replace('MainApp');
                 }
-                setLauchDeleteDialog(!lauchDeleteDialog);
-                successMessage('Messege success deleted!');
+                successMessage('Message success deleted!');
             })
         })
         .catch((error) => {
-            setLauchDeleteDialog(!lauchDeleteDialog);
-            errorMessage(error.message);
+            errorMessage(error);
         })
+        setLauchDeleteDialog(!lauchDeleteDialog);
     }
     const _unFriend = () => {
         unFriend(user.uid, detailContact.uid, detailContact.name).then((response) => {
@@ -196,7 +193,7 @@ const Chat = ({navigation}) => {
                 cancelText="Cancel"
 
                 onCancelPressed={_toggleModalDeleteMessages}
-                onConfirmPressed={_deleteMessageFromAPI}
+                onConfirmPressed={_deleteMessagesFromAPI}
 
                 closeOnTouchOutside
                 closeOnHardwareBackPress
