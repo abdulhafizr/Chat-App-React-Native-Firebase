@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { Icon } from '../../components';
 import { colors } from '../../utils';
 
-export function BottomTabNavigatorTheme({ state, descriptors, navigation }) {
+export const BottomTabNavigatorTheme = ({ state, descriptors, navigation }) => {
   const focusedOptions = descriptors[state.routes[state.index].key].options;
 
   if (focusedOptions.tabBarVisible === false) {

@@ -1,13 +1,12 @@
 import React from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { colors, fonts } from '../../../utils';
-import { Avatar } from '../../../assets';
 import { Icon } from '../../atoms';
 
 const HeaderChat = ({name, photo, onPress}) => {
     return (
         <View style={styles.container}>
-            <Icon type="back-arrow-ic" onPress={onPress} />
+            <Icon type="back-arrow-ic" onPress={onPress} style={styles.ic_back} />
             <Text style={styles.name}>{name}</Text>
             <Image source={{uri: photo}} style={styles.profile} />
         </View>
@@ -29,7 +28,7 @@ const styles = StyleSheet.create({
     },
     name: {
         flex: 1,
-        marginLeft: 26,
+        marginLeft: 21,
         fontSize: 16,
         fontFamily: fonts.primary[400],
         color: colors.text.white2,
@@ -40,4 +39,8 @@ const styles = StyleSheet.create({
         height: 35,
         borderRadius: 35 / 2,
     },
+    ic_back: {
+        padding: 5,
+        paddingLeft: 0,
+    }
 })
