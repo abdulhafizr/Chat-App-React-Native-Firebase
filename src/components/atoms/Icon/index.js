@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, ActivityIndicator } from 'react-native';
+import { TouchableOpacity, ActivityIndicator, View } from 'react-native';
 import AntIcon from 'react-native-vector-icons/AntDesign';
 import EntIcon from 'react-native-vector-icons/Entypo';
 import { 
@@ -11,7 +11,7 @@ import {
 import { colors } from '../../../utils';
 import BTNIcon from './BTNIcon';
 
-const Icon = ({ type, onPress, onLongPress, label, isFocused, isLoading, style, sizeIndicator}) => {
+const Icon = ({ type, onPress, onLongPress, label, isFocused, isLoading, style, sizeIndicator, iconOnly}) => {
     if(isLoading) {
         return <ActivityIndicator size={sizeIndicator || "small"} color={colors.text.white1} />
     }
@@ -51,9 +51,20 @@ const Icon = ({ type, onPress, onLongPress, label, isFocused, isLoading, style, 
         }
     }
     return (
-        <TouchableOpacity onPress={onPress} onLongPress={onLongPress} style={[{...style}, {padding: 5, paddingHorizontal: 2}]}>
-            <IconChild />
-        </TouchableOpacity>
+        
+        <View>
+            {
+                iconOnly ? (
+                    <View>
+                        <IconChild />
+                    </View>
+                ) : (
+                    <TouchableOpacity onPress={onPress} onLongPress={onLongPress} style={style}>
+                        <IconChild />
+                    </TouchableOpacity>
+                )
+            }
+        </View>
     )
 }
 

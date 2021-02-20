@@ -66,6 +66,7 @@ const Chat = ({navigation}) => {
                 profession={item.profession}
                 photo={item.photo}
                 message={item.message}
+                style={{marginHorinzontal: 12}}
                 onPress={() => navigation.navigate('Chatting', {...item})} 
                 onLongPress={() => {
                     _showActionSheet();

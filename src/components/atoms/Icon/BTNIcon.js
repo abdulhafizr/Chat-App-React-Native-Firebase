@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { BTNContact, BTNContactActive, BTNMessage, BTNMessageActive, BTNProfile, BTNProfileActive } from '../../../assets'
 
 const BTNIcon = ({label, isFocused}) => {

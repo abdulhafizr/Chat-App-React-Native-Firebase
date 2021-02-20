@@ -18,7 +18,6 @@ export const styles = StyleSheet.create({
     },
     ic_profile: {
         alignSelf: 'flex-end',
-        marginRight: 2,
     },
     buttomSheet: {
         backgroundColor: colors.background.primary,

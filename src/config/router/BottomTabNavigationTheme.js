@@ -49,6 +49,7 @@ export function BottomTabNavigatorTheme({ state, descriptors, navigation }) {
             onPress={onPress}
             onLongPress={onLongPress}
             isFocused={isFocused}
+            style={styles.btn}
           />
         );
       })}
@@ -61,10 +62,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        paddingHorizontal: 40,
+        paddingHorizontal: 30,
         height: 55,
         backgroundColor: colors.background.primary,
         borderTopColor: colors.border.primary,
         borderTopWidth: 1,
-    }
+    },
+    btn: {
+      padding: 10
+    },
 })

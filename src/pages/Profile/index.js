@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, View } from 'react-native';
-import { HeaderProfile, Icon } from '../../components';
+import { ScrollView, View, TouchableOpacity } from 'react-native';
+import { Alert, HeaderProfile, Icon } from '../../components';
 import { GoogleSignin } from '@react-native-community/google-signin';
 import { firebase, getData } from '../../config';
 import { errorMessage, successMessage } from '../../utils';
@@ -9,13 +9,19 @@ import { styles } from './styles';
 const Profile = ({navigation}) => {
     const [user, setUser] = useState({});
     const [isLoading, setIsLoading] = useState(false);
+    const [launchSignoutDialog, setLaunchSignoutDialog] = useState(false);
 
     useEffect(() => {
         getData('user').then((response) => {
             setUser(response);
         })
     }, [])
-    const signOut = async () => {
+
+    const _toggleSignoutDialog = () => {
+        setLaunchSignoutDialog(!launchSignoutDialog);
+    }
+    const _signOut = async () => {
+        _toggleSignoutDialog();
         setIsLoading(true);
         try {
             await GoogleSignin.revokeAccess();
@@ -34,7 +40,7 @@ const Profile = ({navigation}) => {
             setIsLoading(false);
         }
     }
-    const editProfile = () => {
+    const _editProfile = () => {
         navigation.navigate('EditProfile', user);
     }
 
@@ -53,14 +59,22 @@ const Profile = ({navigation}) => {
                     }
                 </View>
                 <View style={styles.main}>
-                    <View style={styles.iconWrapper1}>
-                        <Icon type="edit-profile-ic" onPress={editProfile} />
-                    </View>
-                    <View style={styles.iconWrapper1}>
-                        <Icon type="signout-ic" onPress={signOut} isLoading={isLoading} />
-                    </View>
+                    <TouchableOpacity onPress={_editProfile} style={styles.iconWrapper1}>
+                        <Icon type="edit-profile-ic" iconOnly />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={_toggleSignoutDialog} style={styles.iconWrapper1}>
+                        <Icon type="signout-ic" isLoading={isLoading} iconOnly />
+                    </TouchableOpacity>
                 </View>
             </ScrollView>
+            <Alert 
+                showAlert={launchSignoutDialog}
+                alertTitle={`Are you wanna to sign out?`}
+                alertMessage={`If you sign out, you will need to log in again to access your account`}
+                alertLabel="Sign out"
+                cancelAction={_toggleSignoutDialog}
+                confirmAction={_signOut}
+            />
         </View>
     )
 }

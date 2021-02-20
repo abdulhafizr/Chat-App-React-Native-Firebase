@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
         paddingLeft: 0,
         paddingVertical: 10,
         fontSize: 19,
+        alignSelf: 'flex-start',
     },
     messageStyle: {
         color: colors.text.white3,

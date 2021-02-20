@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, TouchableOpacity, View } from 'react-native';
 import { HeaderProfile, Icon, Alert } from '../../components';
 import { firebase, getData } from '../../config';
 import { addFriend, unFriend, errorMessage, successMessage } from '../../utils';
@@ -65,16 +65,17 @@ const DetailContact = ({navigation, route}) => {
                     />
                 </View>
                 <View style={styles.main}>
-                    <View style={styles.iconWrapper1}>
-                        <Icon type="message-ic" onPress={goToChatting} />
-                    </View>
-                    <View style={styles.iconWrapper1}>
-                        <Icon 
+                    <TouchableOpacity onPress={goToChatting} style={styles.iconWrapper1}>
+                        <Icon type="message-ic" iconOnly />
+                    </TouchableOpacity>
+                            
+                    <TouchableOpacity onPress={isFriend ? _toggleRemoveContactDialog : _addFriend}  style={styles.iconWrapper1}>
+                        <Icon
                             type={isFriend ? 'remove-ic' : 'add-ic'} 
-                            onPress={isFriend ? _toggleRemoveContactDialog : _addFriend}
                             isLoading={isLoading}
+                            iconOnly
                         />
-                    </View>
+                    </TouchableOpacity>
                 </View>
             </ScrollView>
             <Alert 
