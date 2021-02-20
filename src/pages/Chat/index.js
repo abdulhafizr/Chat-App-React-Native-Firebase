@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import AwesomeAlert from 'react-native-awesome-alerts';
 import { Text, View, FlatList, TouchableOpacity } from 'react-native';
 import { Placeholder, PlaceholderLine, Progressive } from 'rn-placeholder';
 import { SwipeablePanel } from 'rn-swipeable-panel';
-import { ChatHistory, Icon } from '../../components';
+import { ChatHistory, Icon, Alert } from '../../components';
 import { getData, firebase } from '../../config';
-import { deleteChatting, deleteHistoryChat, errorMessage, successMessage, unFriend } from '../../utils';
+import { deleteChatting, deleteHistoryChat, errorMessage, successMessage } from '../../utils';
 import { styles } from './styles';
 import _ from 'lodash';
 
@@ -99,21 +98,13 @@ const Chat = ({navigation}) => {
                     navigation.replace('MainApp');
                 }
                 successMessage('Message success deleted!');
+                _toggleModalDeleteChatting();
             })
         })
         .catch((error) => {
             errorMessage(error);
+            _toggleModalDeleteChatting();
         })
-        setLauchDeleteDialog(!lauchDeleteDialog);
-    }
-    const _unFriend = () => {
-        unFriend(user.uid, detailContact.uid, detailContact.name).then((response) => {
-            successMessage(response);
-        })
-        .catch((error) => {
-            errorMessage(error);
-        })
-        _closeActionSheet();
     }
     const _viewProfile = () => {
         navigation.navigate('DetailContact', detailContact)
@@ -121,7 +112,7 @@ const Chat = ({navigation}) => {
     }
     const _deleteMessages = () => {
         setTimeout(() => {
-            _showDialogDeleteMessages();
+            _showDialogDeleteChatting();
         }, 500)
         _closeActionSheet();
     }
@@ -137,13 +128,13 @@ const Chat = ({navigation}) => {
         setShowBottomSheet(false)
     }
 
-    const _showDialogDeleteMessages = () => {
-        _toggleModalDeleteMessages();
+    const _showDialogDeleteChatting = () => {
+        _toggleModalDeleteChatting();
         setTitleDeleteDialog(`Delete your messages with ${detailContact.name}?`);
         setMessageDeleteDialog(`do you wanna delete your messages with ${detailContact.name}?`);
     }
-    const _toggleModalDeleteMessages = () => {
-        setLauchDeleteDialog(!lauchDeleteDialog)
+    const _toggleModalDeleteChatting = () => {
+        setLauchDeleteDialog(!lauchDeleteDialog);
     }
 
     return (
@@ -175,37 +166,18 @@ const Chat = ({navigation}) => {
                 <TouchableOpacity onPress={_viewMessages}>
                     <Text style={styles.buttomSheetText}>View Messages</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={_unFriend}>
-                    <Text style={styles.buttomSheetText}>Unfriend</Text>
-                </TouchableOpacity>
                 <TouchableOpacity onPress={_closeActionSheet}>
                     <Text style={styles.buttomSheetText}>Cancel</Text>
                 </TouchableOpacity>
             </SwipeablePanel>
 
-            <AwesomeAlert 
-                show={lauchDeleteDialog}
-                title={titleDeleteDialog}
-                message={messageDeleteDialog}
-                showConfirmButton={true}
-                showCancelButton={true}
-                confirmText="Delete message"
-                cancelText="Cancel"
-
-                onCancelPressed={_toggleModalDeleteMessages}
-                onConfirmPressed={_deleteMessagesFromAPI}
-
-                closeOnTouchOutside
-                closeOnHardwareBackPress
-                titleStyle={styles.titleDeleteMessages}
-                messageStyle={styles.messageDeleteMessages}
-                confirmButtonStyle={styles.buttonDeleteMessages}
-                cancelButtonStyle={styles.buttonCancelMessages}
-                contentContainerStyle={styles.deleteDialogContainer}
-                actionContainerStyle={styles.actionContainerStyle}
-                confirmButtonTextStyle={{fontSize: 14}}
-                cancelButtonTextStyle={{fontSize: 14}}
-                overlayStyle={{backgroundColor: 'rgba(0,0,0,.55)', height: '100%'}}
+            <Alert 
+                showAlert={lauchDeleteDialog}
+                alertTitle={titleDeleteDialog}
+                alertMessage={messageDeleteDialog}
+                alertLabel="Delete Chat"
+                cancelAction={_toggleModalDeleteChatting}
+                confirmAction={_deleteMessagesFromAPI}
             />
         </View>
     )

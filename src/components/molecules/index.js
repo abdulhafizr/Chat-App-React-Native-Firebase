@@ -7,6 +7,7 @@ import InputChat from './InputChat';
 import HeaderChat from './HeaderChat';
 import BubbleChat from './BubbleChat';
 import UserItem from './UserItem';
+import Alert from './Alert';
 
 export { 
     ChatHistory, 
@@ -18,4 +19,5 @@ export {
     HeaderChat,
     BubbleChat,
     UserItem,
+    Alert,
 };
