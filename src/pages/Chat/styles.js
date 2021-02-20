@@ -20,28 +20,6 @@ export const styles = StyleSheet.create({
         alignSelf: 'flex-end',
         marginRight: 2,
     },
-    deleteDialogContainer: {
-        backgroundColor: colors.background.secondary,
-        borderRadius: 4,
-        maxWidth: '93.5%'
-    },
-    buttonDeleteMessages: {
-        backgroundColor: colors.background.error,
-        borderRadius: 2,
-    },
-    buttonCancelMessages: {
-        backgroundColor: colors.background.blue,
-        borderRadius: 2,
-    },
-    titleDeleteMessages: {
-        color: colors.text.white2,
-        paddingLeft: 0,
-        paddingVertical: 10,
-        fontSize: 19,
-    },
-    messageDeleteMessages: {
-        color: colors.text.white3,
-    },
     buttomSheet: {
         backgroundColor: colors.background.primary,
         paddingTop: 0,
@@ -53,8 +31,5 @@ export const styles = StyleSheet.create({
         color: colors.text.white1,
         borderBottomColor: colors.border.primary,
         borderBottomWidth: 1
-    },
-    actionContainerStyle: {
-        justifyContent: 'flex-start'
     },
 })
