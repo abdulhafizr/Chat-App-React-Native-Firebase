@@ -10,6 +10,7 @@ import { successMessage } from '../../utils';
 const Chatting = ({navigation, route}) => {
     const {uid : friendUid, name : friendName, photo : friendPhoto} = route.params;
     const [isInverted, setIsInverted] = useState(false);
+    const [user, setUser] = useState({});
     const [messages, setMessages] = useState([]);
     const [messageSelect, setMessageSelect] = useState({});
     const [showBottomSheet, setShowBottomSheet] = useState(false);
@@ -17,6 +18,7 @@ const Chatting = ({navigation, route}) => {
     useEffect(() => {
         let isMounted = true;
         getData('user').then((currentUser) => {
+            setUser(currentUser);
             firebase.database().ref(`chatting/${currentUser.uid}_${friendUid}`).on('value', (snapshot) => {
                 const allMessages = snapshot.val();
                 if(allMessages && isMounted) {
@@ -25,12 +27,16 @@ const Chatting = ({navigation, route}) => {
                     Object.keys(allMessages).map((keyDate) => {
                         const chatPerDay = [];
                         Object.keys(allMessages[keyDate]).map((keyMessage) => {
-                            chatPerDay.push(allMessages[keyDate][keyMessage]);
+                            chatPerDay.push({
+                                ...allMessages[keyDate][keyMessage],
+                                date: keyDate,
+                                idMessage: keyMessage,
+                            });
                             count++;
                         })
                         data.push({
                             date: keyDate,
-                            messeges: chatPerDay
+                            messages: chatPerDay
                         });
                     })
                     setIsInverted((count > 8));
@@ -45,7 +51,7 @@ const Chatting = ({navigation, route}) => {
         <View>
             <Text style={styles.timestamp}>{item.date}</Text>
             {
-                item.messeges.map((chat) => (
+                item.messages.map((chat) => (
                     <BubbleChat 
                         key={chat.key}
                         message={chat.message} 
@@ -65,6 +71,16 @@ const Chatting = ({navigation, route}) => {
     }
     const _closeActionSheet = () => {
         setShowBottomSheet(false)
+    }
+    const _deleteChat = () => {
+        _closeActionSheet();
+        firebase.database().ref(`chatting/${user.uid}_${friendUid}/${messageSelect.date}/${messageSelect.idMessage}`).remove()
+        .then(() => {
+            successMessage('Message deleted successfully');
+        })
+        .catch((error) => {
+            errorMessage(error.message);
+        })
     }
     const _copyMessage = () => {
         Clipboard.setString(messageSelect.message);
@@ -99,13 +115,9 @@ const Chatting = ({navigation, route}) => {
                 <TouchableOpacity onPress={_copyMessage}>
                     <Text style={styles.buttomSheetText}>Copy Message</Text>
                 </TouchableOpacity>
-                {
-                    friendUid !== messageSelect.sentBy && (
-                        <TouchableOpacity>
-                            <Text style={styles.buttomSheetText}>Delete</Text>
-                        </TouchableOpacity>
-                    )
-                }
+                <TouchableOpacity onPress={_deleteChat}>
+                    <Text style={styles.buttomSheetText}>Delete</Text>
+                </TouchableOpacity>
                 <TouchableOpacity onPress={_closeActionSheet}>
                     <Text style={styles.buttomSheetText}>Cancel</Text>
                 </TouchableOpacity>
