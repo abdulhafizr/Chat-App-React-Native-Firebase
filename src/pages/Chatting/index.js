@@ -72,10 +72,26 @@ const Chatting = ({navigation, route}) => {
     const _closeActionSheet = () => {
         setShowBottomSheet(false)
     }
+
     const _deleteChat = () => {
         _closeActionSheet();
         firebase.database().ref(`chatting/${user.uid}_${friendUid}/${messageSelect.date}/${messageSelect.idMessage}`).remove()
         .then(() => {
+            const currentChatDate = messages[messages.length - 1];
+            const lastChatBeforeDelete = currentChatDate.messages[currentChatDate.messages.length - 1];
+            const lastChatAfterDelete = currentChatDate.messages[currentChatDate.messages.length - 2];
+            if(lastChatAfterDelete) {
+                if(messageSelect.message === lastChatBeforeDelete.message) {
+                    firebase.database().ref(`history_chats/${user.uid}/${friendUid}`).set({
+                        message: lastChatAfterDelete.message,
+                        time: new Date().getTime(),
+                        uid: friendUid,
+                    })
+                }
+            }else{
+                firebase.database().ref(`history_chats/${user.uid}/${friendUid}`).remove();
+                setMessages([]);
+            }
             successMessage('Message deleted successfully');
         })
         .catch((error) => {

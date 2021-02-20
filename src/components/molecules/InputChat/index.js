@@ -60,7 +60,7 @@ const InputChat = ({data}) => {
 
                     const historyChat = {
                         message,
-                        time: getTime,
+                        time: currentDate.getTime(),
                     }
 
                     db.ref(`chatting/${friendUid}_${currentUser.uid}/${getDate}/`).push(messageSend).then(() => {
@@ -69,12 +69,10 @@ const InputChat = ({data}) => {
                         historyCol.child(`${friendUid}/${currentUser.uid}`).set({
                             ...historyChat,
                             uid: currentUser.uid,
-                            time: currentDate.getTime(),
                         })
                         historyCol.child(`${currentUser.uid}/${friendUid}`).set({
                             ...historyChat,
                             uid: friendUid,
-                            time: currentDate.getTime(),
                         })
                     })
                     
