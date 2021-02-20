@@ -8,7 +8,8 @@ export const styles = StyleSheet.create({
     },
     header: {
         paddingTop: 25,
-        padding: 12,
+        paddingBottom: 0,
+        paddingHorizontal: 12,
     },
     messagesTitle: {
         fontSize: 16,

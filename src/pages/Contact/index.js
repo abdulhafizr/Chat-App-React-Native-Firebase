@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { Text, View, FlatList, TouchableOpacity } from 'react-native';
 import { Placeholder, PlaceholderLine, Progressive } from 'rn-placeholder';
 import { SwipeablePanel } from 'rn-swipeable-panel';
-import { Icon, SearchInput, UserItem } from '../../components';
+import { Icon, SearchInput, UserItem, Alert } from '../../components';
 import { getData, firebase } from '../../config';
 import { errorMessage, successMessage, unFriend } from '../../utils';
 import { styles } from './styles';
@@ -17,6 +17,7 @@ const Contact = ({navigation}) => {
     const [user, setUser] = useState({});
     const [detailContact, setDetailContact] = useState({});
     const [showBottomSheet, setShowBottomSheet] = useState(false);
+    const [lauchRemoveContactDialog, setLauchRemoveContactDialog] = useState(false);
 
     useEffect(() => {
         let isDidMount = true; 
@@ -86,17 +87,24 @@ const Contact = ({navigation}) => {
         )
     }
 
-    const _unFriend = () => {
+    const _lauchDialogRemoveContact = () => {
+        setTimeout(() => {
+            _toggleRemoveContactDialog();
+        }, 500);
+        _closeActionSheet();
+    }
+    const _removeFromMyContact = () => {
         unFriend(user.uid, detailContact.uid, detailContact.name).then((response) => {
             if(contacts.length <= 1) {
                 navigation.replace('MainApp');
             }
             successMessage(response);
+            _toggleRemoveContactDialog();
         })
         .catch((error) => {
             errorMessage(error);
+            _toggleRemoveContactDialog();
         })
-        _closeActionSheet();
     }
 
     const _showActionSheet = () => {
@@ -104,6 +112,10 @@ const Contact = ({navigation}) => {
     }
     const _closeActionSheet = () => {
         setShowBottomSheet(false)
+    }
+
+    const _toggleRemoveContactDialog = () => {
+        setLauchRemoveContactDialog(!lauchRemoveContactDialog);
     }
 
     return (
@@ -141,13 +153,22 @@ const Contact = ({navigation}) => {
                 }}>
                     <Text style={styles.buttomSheetText}>View Messages</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={_unFriend}>
-                    <Text style={styles.buttomSheetText}>Unfriend</Text>
+                <TouchableOpacity onPress={_lauchDialogRemoveContact}>
+                    <Text style={styles.buttomSheetText}>Remove From My Contact</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={_closeActionSheet}>
                     <Text style={styles.buttomSheetText}>Cancel</Text>
                 </TouchableOpacity>
             </SwipeablePanel>
+            
+            <Alert 
+                showAlert={lauchRemoveContactDialog}
+                alertTitle={`Remove ${detailContact.name} from your contact?`}
+                alertMessage={`do you wanna remove ${detailContact.name} from your contact`}
+                alertLabel="Remove from my contact"
+                cancelAction={_toggleRemoveContactDialog}
+                confirmAction={_removeFromMyContact}
+            />
         </View>
     )
 }

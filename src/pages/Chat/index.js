@@ -15,8 +15,6 @@ const Chat = ({navigation}) => {
     const [detailContact, setDetailContact] = useState({});
     const [showBottomSheet, setShowBottomSheet] = useState(false);
     const [lauchDeleteDialog, setLauchDeleteDialog] = useState(false);
-    const [messageDeleteDialog, setMessageDeleteDialog] = useState('');
-    const [titleDeleteDialog, setTitleDeleteDialog] = useState('');
     const [user, setUser] = useState({});
 
     useEffect(() => {
@@ -112,7 +110,7 @@ const Chat = ({navigation}) => {
     }
     const _deleteMessages = () => {
         setTimeout(() => {
-            _showDialogDeleteChatting();
+            _toggleModalDeleteChatting();
         }, 500)
         _closeActionSheet();
     }
@@ -128,11 +126,6 @@ const Chat = ({navigation}) => {
         setShowBottomSheet(false)
     }
 
-    const _showDialogDeleteChatting = () => {
-        _toggleModalDeleteChatting();
-        setTitleDeleteDialog(`Delete your messages with ${detailContact.name}?`);
-        setMessageDeleteDialog(`do you wanna delete your messages with ${detailContact.name}?`);
-    }
     const _toggleModalDeleteChatting = () => {
         setLauchDeleteDialog(!lauchDeleteDialog);
     }
@@ -173,8 +166,8 @@ const Chat = ({navigation}) => {
 
             <Alert 
                 showAlert={lauchDeleteDialog}
-                alertTitle={titleDeleteDialog}
-                alertMessage={messageDeleteDialog}
+                alertTitle={`Delete your messages with ${detailContact.name}?`}
+                alertMessage={`do you wanna delete your messages with ${detailContact.name}?`}
                 alertLabel="Delete Chat"
                 cancelAction={_toggleModalDeleteChatting}
                 confirmAction={_deleteMessagesFromAPI}
