@@ -5,3 +5,4 @@ export * from './deleteHistoryChat';
 export * from './deleteChatting';
 export * from './addFriend';
 export * from './unFriend';
+export * from './limitText';

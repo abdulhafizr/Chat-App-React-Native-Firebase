@@ -4,7 +4,7 @@ import { Placeholder, PlaceholderLine, Progressive } from 'rn-placeholder';
 import { SwipeablePanel } from 'rn-swipeable-panel';
 import { ChatHistory, Icon, Alert } from '../../components';
 import { getData, firebase } from '../../config';
-import { deleteChatting, deleteHistoryChat, errorMessage, successMessage } from '../../utils';
+import { deleteChatting, deleteHistoryChat, errorMessage, successMessage, limitText } from '../../utils';
 import { styles } from './styles';
 import _ from 'lodash';
 
@@ -65,7 +65,7 @@ const Chat = ({navigation}) => {
                 name={item.name}
                 profession={item.profession}
                 photo={item.photo}
-                message={item.message}
+                message={item.message.length > 200 ? limitText(item.message) : item.message}
                 style={{marginHorinzontal: 12}}
                 onPress={() => navigation.navigate('Chatting', {...item})} 
                 onLongPress={() => {

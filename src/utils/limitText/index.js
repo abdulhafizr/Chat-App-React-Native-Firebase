@@ -1,0 +1,1 @@
+export const limitText = (text) => text.substring(0, 200) + '...';
