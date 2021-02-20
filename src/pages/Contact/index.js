@@ -4,7 +4,7 @@ import { Placeholder, PlaceholderLine, Progressive } from 'rn-placeholder';
 import { SwipeablePanel } from 'rn-swipeable-panel';
 import { Icon, SearchInput, UserItem } from '../../components';
 import { getData, firebase } from '../../config';
-import { errorMessage, successMessage } from '../../utils';
+import { errorMessage, successMessage, unFriend } from '../../utils';
 import { styles } from './styles';
 import _ from 'lodash';
 
@@ -86,17 +86,17 @@ const Contact = ({navigation}) => {
         )
     }
 
-    const unFriend = () => {
-        firebase.database().ref(`contacts/${user.uid}/${detailContact.uid}`).remove().then(() => {
+    const _unFriend = () => {
+        unFriend(user.uid, detailContact.uid, detailContact.name).then((response) => {
             if(contacts.length <= 1) {
                 navigation.replace('MainApp');
             }
-            successMessage(`${detailContact.name} success remove from mycontact`);
-            _closeActionSheet();
+            successMessage(response);
         })
         .catch((error) => {
-            errorMessage(`${detailContact.name} failed to remove from mycontact, ${error.message}`);
+            errorMessage(error);
         })
+        _closeActionSheet();
     }
 
     const _showActionSheet = () => {
@@ -141,7 +141,7 @@ const Contact = ({navigation}) => {
                 }}>
                     <Text style={styles.buttomSheetText}>View Messages</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={unFriend}>
+                <TouchableOpacity onPress={_unFriend}>
                     <Text style={styles.buttomSheetText}>Unfriend</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={_closeActionSheet}>

@@ -15,7 +15,7 @@ const MainApp = () => {
     )
 }
 
-const Router = () => {
+export const Router = () => {
     const { Navigator, Screen } = createStackNavigator();
     return (
         <Navigator initialRouteName="Splash">
@@ -30,4 +30,3 @@ const Router = () => {
     )
 }
 
-export default Router;

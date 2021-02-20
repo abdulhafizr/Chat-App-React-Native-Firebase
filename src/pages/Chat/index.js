@@ -5,7 +5,7 @@ import { Placeholder, PlaceholderLine, Progressive } from 'rn-placeholder';
 import { SwipeablePanel } from 'rn-swipeable-panel';
 import { ChatHistory, Icon } from '../../components';
 import { getData, firebase } from '../../config';
-import { errorMessage, successMessage } from '../../utils';
+import { errorMessage, successMessage, unFriend } from '../../utils';
 import { styles } from './styles';
 import _ from 'lodash';
 
@@ -17,7 +17,6 @@ const Chat = ({navigation}) => {
     const [showBottomSheet, setShowBottomSheet] = useState(false);
     const [lauchDeleteDialog, setLauchDeleteDialog] = useState(false);
     const [messageDeleteDialog, setMessageDeleteDialog] = useState('');
-    const [messegesDeleteUID, setMessegesDeleteUID] = useState('');
     const [titleDeleteDialog, setTitleDeleteDialog] = useState('');
     const [user, setUser] = useState({});
 
@@ -93,10 +92,10 @@ const Chat = ({navigation}) => {
         )
     }
    
-    const deleteMessages = () => {
-        firebase.database().ref(`history_chats/${user.uid}/${messegesDeleteUID}`).remove()
+    const _deleteMessageFromAPI = () => {
+        firebase.database().ref(`history_chats/${user.uid}/${detailContact.uid}`).remove()
         .then(() => {
-            firebase.database().ref(`chatting/${user.uid}_${messegesDeleteUID}`).remove()
+            firebase.database().ref(`chatting/${user.uid}_${detailContact.uid}`).remove()
             .then(() => {
                 if(historyMessages.length <= 1 ) {
                     navigation.replace('MainApp');
@@ -108,16 +107,30 @@ const Chat = ({navigation}) => {
         .catch((error) => {
             setLauchDeleteDialog(!lauchDeleteDialog);
             errorMessage(error.message);
-        })    
+        })
     }
-    const unFriend = () => {
-        firebase.database().ref(`contacts/${user.uid}/${detailContact.uid}`).remove().then(() => {
-            successMessage(`${detailContact.name} success remove from mycontact`);
-            _closeActionSheet();
+    const _unFriend = () => {
+        unFriend(user.uid, detailContact.uid, detailContact.name).then((response) => {
+            successMessage(response);
         })
         .catch((error) => {
-            errorMessage(`${detailContact.name} failed to remove from mycontact, ${error.message}`);
+            errorMessage(error);
         })
+        _closeActionSheet();
+    }
+    const _viewProfile = () => {
+        navigation.navigate('DetailContact', detailContact)
+        _closeActionSheet();
+    }
+    const _deleteMessages = () => {
+        setTimeout(() => {
+            _showDialogDeleteMessages();
+        }, 500)
+        _closeActionSheet();
+    }
+    const _viewMessages = () => {
+        navigation.navigate('Chatting', detailContact)
+        _closeActionSheet();
     }
 
     const _showActionSheet = () => {
@@ -127,14 +140,12 @@ const Chat = ({navigation}) => {
         setShowBottomSheet(false)
     }
 
-    const showDialogDeleteMessages = () => {
-        closeModal();
-        setLauchDeleteDialog(!lauchDeleteDialog);
-        setMessegesDeleteUID(detailContact.uid);
+    const _showDialogDeleteMessages = () => {
+        _toggleModalDeleteMessages();
         setTitleDeleteDialog(`Delete your messages with ${detailContact.name}?`);
         setMessageDeleteDialog(`do you wanna delete your messages with ${detailContact.name}?`);
     }
-    const closeModal = () => {
+    const _toggleModalDeleteMessages = () => {
         setLauchDeleteDialog(!lauchDeleteDialog)
     }
 
@@ -158,27 +169,16 @@ const Chat = ({navigation}) => {
                 onPressCloseButton={_closeActionSheet}
                 style={styles.buttomSheet}
             >
-                <TouchableOpacity onPress={() => {
-                    navigation.navigate('DetailContact', detailContact)
-                    _closeActionSheet();
-                }}>
+                <TouchableOpacity onPress={_viewProfile}>
                     <Text style={styles.buttomSheetText}>View Profile</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => {
-                    setTimeout(() => {
-                        showDialogDeleteMessages();
-                    }, 500)
-                    _closeActionSheet();
-                }}>
+                <TouchableOpacity onPress={_deleteMessages}>
                     <Text style={styles.buttomSheetText}>Delete Messages</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => {
-                    navigation.navigate('Chatting', detailContact)
-                    _closeActionSheet();
-                }}>
+                <TouchableOpacity onPress={_viewMessages}>
                     <Text style={styles.buttomSheetText}>View Messages</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={unFriend}>
+                <TouchableOpacity onPress={_unFriend}>
                     <Text style={styles.buttomSheetText}>Unfriend</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={_closeActionSheet}>
@@ -195,8 +195,8 @@ const Chat = ({navigation}) => {
                 confirmText="Delete message"
                 cancelText="Cancel"
 
-                onCancelPressed={closeModal}
-                onConfirmPressed={deleteMessages}
+                onCancelPressed={_toggleModalDeleteMessages}
+                onConfirmPressed={_deleteMessageFromAPI}
 
                 closeOnTouchOutside
                 closeOnHardwareBackPress

@@ -2,11 +2,11 @@ import React, {useState, useEffect} from 'react';
 import { ScrollView, View } from 'react-native';
 import { HeaderProfile, Icon } from '../../components';
 import { firebase, getData } from '../../config';
-import { errorMessage, successMessage } from '../../utils';
+import { addFriend, unFriend, errorMessage, successMessage } from '../../utils';
 import { styles } from './styles';
 
 const DetailContact = ({navigation, route}) => {
-    const {uid, name, photo, profession} = route.params;
+    const {uid: contactUid, name: contactName, photo: contactPhoto, profession: contactProfession} = route.params;
     const [user, setUser] = useState({});
     const [isFriend, setIsFriend] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -14,7 +14,7 @@ const DetailContact = ({navigation, route}) => {
     useEffect(() => {
         getData('user').then((currentUser) => {
             setUser(currentUser);
-            firebase.database().ref(`contacts/${currentUser.uid}/${uid}`).on('value', (snapshot) => {
+            firebase.database().ref(`contacts/${currentUser.uid}/${contactUid}`).on('value', (snapshot) => {
                 if(snapshot.val()) {
                     setIsFriend(true);
                 }
@@ -25,28 +25,27 @@ const DetailContact = ({navigation, route}) => {
     const goToChatting = () => {
         navigation.navigate('Chatting', route.params);
     }
-    const addToContact = () => {
+    const _addFriend = () => {
         setIsLoading(true);
-        firebase.database().ref(`contacts/${user.uid}/${uid}`).push(route.params).then((response) => {
-            setIsFriend(true);
+        addFriend(user.uid, route.params).then((response) => {
             setIsLoading(false);
-            successMessage(`${name} success add to mycontact`);
+            setIsFriend(true);
+            successMessage(response);
         })
         .catch((error) => {
-            setIsLoading(false);
-            errorMessage(`${name} failed add to mycontact, ${error.message}`);
-        })
+            errorMessage(error);
+        })            
     }
-    const removeContact = () => {
+    const _unFriend = () => {
         setIsLoading(true);
-        firebase.database().ref(`contacts/${user.uid}/${uid}`).remove().then((response) => {
+        unFriend(user.uid, contactUid, contactName).then((response) => {
             setIsFriend(false);
             setIsLoading(false);
-            successMessage(`${name} success remove from mycontact`);
+            successMessage(response);
         })
         .catch((error) => {
             setIsLoading(false);
-            errorMessage(`${name} failed to remove from mycontact, ${error.message}`);
+            errorMessage(error);
         })
     }
     return (
@@ -55,9 +54,9 @@ const DetailContact = ({navigation, route}) => {
                 <View style={styles.header}>
                     <Icon type="back-arrow-ic" onPress={() => navigation.goBack()} style={styles.iconBack} />
                     <HeaderProfile 
-                        name={name}
-                        profession={profession}
-                        photo={photo}
+                        name={contactName}
+                        profession={contactProfession}
+                        photo={contactPhoto}
                     />
                 </View>
                 <View style={styles.main}>
@@ -67,7 +66,7 @@ const DetailContact = ({navigation, route}) => {
                     <View style={styles.iconWrapper1}>
                         <Icon 
                             type={isFriend ? 'remove-ic' : 'add-ic'} 
-                            onPress={isFriend ? removeContact : addToContact}
+                            onPress={isFriend ? _unFriend : _addFriend}
                             isLoading={isLoading}
                         />
                     </View>

@@ -17,5 +17,5 @@ export {
     InputChat,
     HeaderChat,
     BubbleChat,
-    UserItem
+    UserItem,
 };

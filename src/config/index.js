@@ -1,5 +1,4 @@
-import Router from './router';
-import {firebase} from './firebase';
-import {getData, storeData} from './localStorage';
+export * from './router';
+export * from './localStorage';
+export * from './firebase';
 
-export {firebase, Router, getData, storeData};
