@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { ScrollView, View } from 'react-native';
-import { HeaderProfile, Icon } from '../../components';
+import { HeaderProfile, Icon, Alert } from '../../components';
 import { firebase, getData } from '../../config';
 import { addFriend, unFriend, errorMessage, successMessage } from '../../utils';
 import { styles } from './styles';
@@ -10,6 +10,7 @@ const DetailContact = ({navigation, route}) => {
     const [user, setUser] = useState({});
     const [isFriend, setIsFriend] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [lauchRemoveContactDialog, setLauchRemoveContactDialog] = useState(false);
 
     useEffect(() => {
         getData('user').then((currentUser) => {
@@ -36,18 +37,22 @@ const DetailContact = ({navigation, route}) => {
             errorMessage(error);
         })            
     }
-    const _unFriend = () => {
-        setIsLoading(true);
+    const _removeFromMyContact = () => {
         unFriend(user.uid, contactUid, contactName).then((response) => {
             setIsFriend(false);
-            setIsLoading(false);
             successMessage(response);
+            _toggleRemoveContactDialog();
         })
         .catch((error) => {
-            setIsLoading(false);
+            _toggleRemoveContactDialog();
             errorMessage(error);
         })
     }
+
+    const _toggleRemoveContactDialog = () => {
+        setLauchRemoveContactDialog(!lauchRemoveContactDialog);
+    }
+
     return (
         <View style={styles.container}>
             <ScrollView>
@@ -66,12 +71,20 @@ const DetailContact = ({navigation, route}) => {
                     <View style={styles.iconWrapper1}>
                         <Icon 
                             type={isFriend ? 'remove-ic' : 'add-ic'} 
-                            onPress={isFriend ? _unFriend : _addFriend}
+                            onPress={isFriend ? _toggleRemoveContactDialog : _addFriend}
                             isLoading={isLoading}
                         />
                     </View>
                 </View>
             </ScrollView>
+            <Alert 
+                showAlert={lauchRemoveContactDialog}
+                alertTitle={`Remove ${contactName} from your contact?`}
+                alertMessage={`do you wanna remove ${contactName} from your contact`}
+                alertLabel="Remove from my contact"
+                cancelAction={_toggleRemoveContactDialog}
+                confirmAction={_removeFromMyContact}
+            />
         </View>
     )
 }
