@@ -15,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "226198834600-pv7sd1f538hage8qhutjaldqe3ds4hmi.apps.googleusercontent.com",
+          "client_id": "226198834600-ju9efpcb6i1k6pnq13emhun1jn3ditn2.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.ahrchat",
-            "certificate_hash": "e704ed85fca4650d94094da1e906a2371efdb6d3"
+            "certificate_hash": "fbfe7ee9cfb175051e13fa0f75382e9fdfff929b"
           }
         },
         {
