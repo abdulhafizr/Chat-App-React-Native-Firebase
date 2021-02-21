@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import database from '@react-native-firebase/database';
 import { ScrollView, View } from 'react-native';
 import { Button, Gap, Icon, AvatarEdit, FormInput } from '../../components';
 import { errorMessage, successMessage } from '../../utils';

@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import database from '@react-native-firebase/database';
-import messaging from '@react-native-firebase/messaging';
 import { Text, View, FlatList, TouchableOpacity } from 'react-native';
 import { Placeholder, PlaceholderLine, Progressive } from 'rn-placeholder';
 import { SwipeablePanel } from 'rn-swipeable-panel';
@@ -155,13 +154,7 @@ const Chat = ({navigation}) => {
                 ListHeaderComponent={_renderHeader}
                 style={styles.container}
                 ItemSeparatorComponent={() => <View style={{height: 10}} />}
-                renderItem={
-                    (isLoading) ? (
-                        _renderPlaceholder
-                    ) : (
-                        _renderAllHistory                    
-                    )
-                }
+                renderItem={ (isLoading) ? _renderPlaceholder : _renderAllHistory}
                 keyExtractor={(item, index) => index.toString()}
                 showsVerticalScrollIndicator={false}
                 refreshing={isRefresh}
