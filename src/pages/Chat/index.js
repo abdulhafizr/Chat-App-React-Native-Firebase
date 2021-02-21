@@ -22,37 +22,15 @@ const Chat = ({navigation}) => {
 
     useEffect(() => {
         let isDidMount = true;
-        getData('user').then((currentUser) => {
-            if(isDidMount) {
-                setUser(currentUser);
-                _getHistoryMessages(currentUser);
-                _requestUserPermission();
-                messaging().onMessage(async remoteMessage => {
-                    Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-                });
-            }
-        })
-        return () => {isDidMount = false};
+            getData('user').then((currentUser) => {
+                if(isDidMount) {
+                    _getHistoryMessages(currentUser);
+                    setUser(currentUser); 
+                }
+            })
+
+        return () => { isDidMount = false };
     }, []);
-
-    const _requestUserPermission = async () => {
-        const authStatus = await messaging().requestPermission();
-        
-        if(authStatus === messaging.AuthorizationStatus.AUTHORIZED || authStatus === messaging.AuthorizationStatus.PROVISIONAL) {
-            _getFcmToken();
-            console.log('Authorization status:', authStatus);
-        }
-    }
-
-    const _getFcmToken = async () => {
-        const fcmToken = await messaging().getToken();
-        if (fcmToken) {
-         console.log(fcmToken);
-         console.log("Your Firebase Token is:", fcmToken);
-        } else {
-         console.log("Failed", "No token received");
-        }
-    }
 
     const _getHistoryMessages = (currentUser) => {
         setIsLoading(true);
@@ -162,6 +140,13 @@ const Chat = ({navigation}) => {
             </Placeholder>
         )
     }
+    const _renderEmptyChatHistory = () => {
+        return (
+            <View style={{height: '100%', backgroundColor: 'red'}}>
+                <Text>No History Chat</Text>
+            </View>
+        )
+    }
 
     return (
         <View style={{flex: 1}}>
@@ -170,7 +155,13 @@ const Chat = ({navigation}) => {
                 ListHeaderComponent={_renderHeader}
                 style={styles.container}
                 ItemSeparatorComponent={() => <View style={{height: 10}} />}
-                renderItem={isLoading ? _renderPlaceholder : _renderAllHistory}
+                renderItem={
+                    (isLoading) ? (
+                        _renderPlaceholder
+                    ) : (
+                        _renderAllHistory                    
+                    )
+                }
                 keyExtractor={(item, index) => index.toString()}
                 showsVerticalScrollIndicator={false}
                 refreshing={isRefresh}
