@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import { Text, View, FlatList, TouchableOpacity } from 'react-native';
+import database from '@react-native-firebase/database';
 import { Placeholder, PlaceholderLine, Progressive } from 'rn-placeholder';
 import { SwipeablePanel } from 'rn-swipeable-panel';
 import { Icon, SearchInput, UserItem, Alert } from '../../components';
-import { getData, firebase } from '../../config';
+import { getData } from '../../config';
 import { errorMessage, successMessage, unFriend } from '../../utils';
 import { styles } from './styles';
 import _ from 'lodash';
@@ -23,7 +24,7 @@ const Contact = ({navigation}) => {
         let isDidMount = true; 
         getData('user').then((currentUser) => {
             setUser(currentUser);
-            firebase.database().ref(`contacts/${currentUser.uid}`).on('value', (snapshot) => {
+            database().ref(`contacts/${currentUser.uid}`).on('value', (snapshot) => {
                 const allContacts = snapshot.val();
                 if(allContacts && isDidMount) {
                     const data = [];

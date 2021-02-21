@@ -1,8 +1,8 @@
-import { firebase } from '../../config';
+import database from '@react-native-firebase/database';
 
 export const unFriend = (userUID, friendUID, contactName) => {
     return new Promise((resolve, reject) => {
-        firebase.database().ref(`contacts/${userUID}/${friendUID}`).remove().then(() => {
+        database().ref(`contacts/${userUID}/${friendUID}`).remove().then(() => {
             resolve(`${contactName} success remove from mycontact`);
         })
         .catch((error) => {

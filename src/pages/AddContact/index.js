@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import { View, FlatList } from 'react-native';
+import database from '@react-native-firebase/database';
 import { Placeholder, PlaceholderLine, Progressive } from 'rn-placeholder';
 import { Gap, SearchInput, UserItem } from '../../components';
-import { firebase, getData } from '../../config';
+import { getData } from '../../config';
 import { styles } from './styles';
 import _ from 'lodash';
 
@@ -14,7 +15,7 @@ const AddContact = ({navigation}) => {
 
     useEffect(() => {
         getData('user').then((currentUser) => {
-            firebase.database().ref('users').on('value', (snapshot) => {
+            database().ref('users').on('value', (snapshot) => {
                 const oldSnapshot = snapshot.val();
                 const data = [];
                 Object.keys(oldSnapshot).filter((key) => {
@@ -28,8 +29,9 @@ const AddContact = ({navigation}) => {
                 setTimeout(() => {
                     setIsLoading(false);
                 }, 500)
-                setUser(data);
-                setAllUser(data);
+                const sort = _.orderBy(data, ['name'], ['asc']);
+                setUser(sort);
+                setAllUser(sort);
             })
         })
 

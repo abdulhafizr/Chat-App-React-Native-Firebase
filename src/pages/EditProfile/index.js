@@ -3,7 +3,7 @@ import { ScrollView, View } from 'react-native';
 import { Button, Gap, Icon, AvatarEdit, FormInput } from '../../components';
 import { errorMessage, successMessage } from '../../utils';
 import { launchImageLibrary } from 'react-native-image-picker';
-import { firebase, storeData } from '../../config';
+import { storeData } from '../../config';
 import { styles } from './styles';
 
 const EditProfile = ({navigation, route}) => {
@@ -50,7 +50,7 @@ const EditProfile = ({navigation, route}) => {
         setDisableButton(true);
         setDisableForm(true);
         setLoading(true);
-        firebase.database().ref(`users/${user.uid}`).update(user)
+        database().ref(`users/${user.uid}`).update(user)
             .then(() => {
                 setDisableButton(false);
                 setDisableForm(false);

@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, TextInput, View, Keyboard } from 'react-native';
+import database from '@react-native-firebase/database';
 import EmojiBoard from 'react-native-emoji-board';
-import { getData, firebase } from '../../../config';
+import { StyleSheet, TextInput, View, Keyboard } from 'react-native';
+import { getData } from '../../../config';
 import { colors, errorMessage, fonts } from '../../../utils';
 import { Icon } from '../../atoms';
 
@@ -50,36 +51,31 @@ const InputChat = ({data}) => {
                 sentBy: currentUser.uid,
                 key: currentDate.getTime(),
             }
-            
-            const db = firebase.database();
-            
+        
             setMessage('');
 
-            db.ref(`chatting/${currentUser.uid}_${friendUid}/${getDate}/`).push(messageSend)
+            database().ref(`chatting/${currentUser.uid}_${friendUid}/${getDate}/`).push(messageSend)
             .then(() => {
+                const historyChat = {
+                    message,
+                    time: currentDate.getTime(),
+                }
 
-                    const historyChat = {
-                        message,
-                        time: currentDate.getTime(),
-                    }
-
-                    db.ref(`chatting/${friendUid}_${currentUser.uid}/${getDate}/`).push(messageSend).then(() => {
-                        const historyCol = firebase.database().ref(`history_chats/`);
-
-                        historyCol.child(`${friendUid}/${currentUser.uid}`).set({
-                            ...historyChat,
-                            uid: currentUser.uid,
-                        })
-                        historyCol.child(`${currentUser.uid}/${friendUid}`).set({
-                            ...historyChat,
-                            uid: friendUid,
-                        })
+                database().ref(`chatting/${friendUid}_${currentUser.uid}/${getDate}/`).push(messageSend).then(() => {
+                    database().ref(`history_chats/${friendUid}/${currentUser.uid}`).set({
+                        ...historyChat,
+                        uid: currentUser.uid,
                     })
-                    
+                    database().ref(`history_chats/${currentUser.uid}/${friendUid}`).set({
+                        ...historyChat,
+                        uid: friendUid,
+                    })
                 })
-                .catch((error) => {
-                    errorMessage(error.message);
-                })
+                
+            })
+            .catch((error) => {
+                errorMessage(error.message);
+            })
         }
     }
     return (

@@ -189,6 +189,13 @@ dependencies {
 
     implementation(project(":react-native-google-signin"))
 
+    implementation platform('com.google.firebase:firebase-bom:26.5.0')
+
+    implementation 'com.google.firebase:firebase-analytics'
+
+    implementation project(path: ":@react-native-firebase_messaging")
+
+
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'
     }

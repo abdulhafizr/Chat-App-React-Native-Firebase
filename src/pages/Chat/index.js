@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from 'react';
+import database from '@react-native-firebase/database';
+import messaging from '@react-native-firebase/messaging';
 import { Text, View, FlatList, TouchableOpacity } from 'react-native';
 import { Placeholder, PlaceholderLine, Progressive } from 'rn-placeholder';
 import { SwipeablePanel } from 'rn-swipeable-panel';
 import { ChatHistory, Icon, Alert } from '../../components';
-import { getData, firebase } from '../../config';
+import { getData } from '../../config';
 import { deleteChatting, deleteHistoryChat, errorMessage, successMessage, limitText } from '../../utils';
 import { styles } from './styles';
 import _ from 'lodash';
@@ -24,20 +26,42 @@ const Chat = ({navigation}) => {
             if(isDidMount) {
                 setUser(currentUser);
                 _getHistoryMessages(currentUser);
+                _requestUserPermission();
+                messaging().onMessage(async remoteMessage => {
+                    Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+                });
             }
         })
         return () => {isDidMount = false};
     }, []);
 
+    const _requestUserPermission = async () => {
+        const authStatus = await messaging().requestPermission();
+        
+        if(authStatus === messaging.AuthorizationStatus.AUTHORIZED || authStatus === messaging.AuthorizationStatus.PROVISIONAL) {
+            _getFcmToken();
+            console.log('Authorization status:', authStatus);
+        }
+    }
+
+    const _getFcmToken = async () => {
+        const fcmToken = await messaging().getToken();
+        if (fcmToken) {
+         console.log(fcmToken);
+         console.log("Your Firebase Token is:", fcmToken);
+        } else {
+         console.log("Failed", "No token received");
+        }
+    }
+
     const _getHistoryMessages = (currentUser) => {
         setIsLoading(true);
-        const rootDB = firebase.database().ref();
-        rootDB.child(`history_chats/${currentUser.uid}`).on('value', async (snapshot) => {
+        database().ref(`history_chats/${currentUser.uid}`).on('value', async (snapshot) => {
             const allHistoryMessages = snapshot.val();
             if(allHistoryMessages) {
                 const data = [];
                 const promises = await Object.keys(allHistoryMessages).map(async (key) => {
-                    const friendInfo = await rootDB.child(`users/${allHistoryMessages[key].uid}`).once('value');
+                    const friendInfo = await database().ref(`users/${allHistoryMessages[key].uid}`).once('value');
                     data.push({
                         ...allHistoryMessages[key],
                         ...friendInfo.val()

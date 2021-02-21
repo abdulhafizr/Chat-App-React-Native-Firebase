@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { ScrollView, View, TouchableOpacity } from 'react-native';
 import { Alert, HeaderProfile, Icon } from '../../components';
 import { GoogleSignin } from '@react-native-community/google-signin';
-import { firebase, getData } from '../../config';
+import { getData } from '../../config';
+import auth from '@react-native-firebase/auth';
 import { errorMessage, successMessage } from '../../utils';
 import { styles } from './styles';
 
@@ -26,7 +27,7 @@ const Profile = ({navigation}) => {
         try {
             await GoogleSignin.revokeAccess();
             await GoogleSignin.signOut();
-            firebase.auth().signOut().then(() => {
+            auth().signOut().then(() => {
                 successMessage('Signout success');
                 navigation.replace('GetStarted');
                 setIsLoading(false);

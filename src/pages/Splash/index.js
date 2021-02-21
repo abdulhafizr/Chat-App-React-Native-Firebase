@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import auth from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-community/google-signin';
-import { firebase } from '../../config';
 import { colors, fonts } from '../../utils';
 
 const Splash = ({navigation}) => {
@@ -10,7 +10,7 @@ const Splash = ({navigation}) => {
             webClientId: '226198834600-r314gdlmqa9o7vrcl9k2o9cf08mn53vs.apps.googleusercontent.com',
             offlineAccess: false,
         })
-        const subscribe = firebase.auth().onAuthStateChanged((user) => {
+        const unsubscribe = auth().onAuthStateChanged((user) => {
             setTimeout(() => {
                 if(user) {
                     navigation.replace('MainApp');
@@ -19,7 +19,7 @@ const Splash = ({navigation}) => {
                 }
             }, 500)
         })
-        return () => subscribe();
+        return unsubscribe;
     }, [navigation]);
     return (
         <View style={styles.container}>

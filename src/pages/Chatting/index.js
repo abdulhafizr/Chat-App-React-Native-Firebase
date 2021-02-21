@@ -1,11 +1,13 @@
 import React, {useState,  useEffect} from 'react';
 import Clipboard from '@react-native-clipboard/clipboard';
+import database from '@react-native-firebase/database';
 import { Text, View, FlatList, TouchableOpacity } from 'react-native';
 import { BubbleChat, HeaderChat, InputChat } from '../../components';
 import { SwipeablePanel } from 'rn-swipeable-panel';
-import { firebase, getData } from '../../config';
+import { getData } from '../../config';
 import { styles } from './styles';
 import { successMessage } from '../../utils';
+import _ from 'lodash';
 
 const Chatting = ({navigation, route}) => {
     const {uid : friendUid, name : friendName, photo : friendPhoto} = route.params;
@@ -19,7 +21,7 @@ const Chatting = ({navigation, route}) => {
         let isMounted = true;
         getData('user').then((currentUser) => {
             setUser(currentUser);
-            firebase.database().ref(`chatting/${currentUser.uid}_${friendUid}`).on('value', (snapshot) => {
+            database().ref(`chatting/${currentUser.uid}_${friendUid}`).on('value', (snapshot) => {
                 const allMessages = snapshot.val();
                 if(allMessages && isMounted) {
                     let count = 0;
@@ -34,13 +36,22 @@ const Chatting = ({navigation, route}) => {
                             });
                             count++;
                         })
+                        const sort = _.orderBy(chatPerDay, ['key'], ['asc'])
                         data.push({
                             date: keyDate,
-                            messages: chatPerDay
+                            messages: sort
                         });
                     })
-                    setIsInverted((count > 8));
-                    setMessages(data);
+                    
+                    if(count < 8) {
+                        setIsInverted(false);
+                        const sort = _.orderBy(data, ['date'], ['asc']);
+                        setMessages(sort);
+                    }else{
+                        setIsInverted(true);
+                        setMessages(data);
+                    }
+                    
                 }
             })
         })
@@ -75,21 +86,21 @@ const Chatting = ({navigation, route}) => {
 
     const _deleteChat = () => {
         _closeActionSheet();
-        firebase.database().ref(`chatting/${user.uid}_${friendUid}/${messageSelect.date}/${messageSelect.idMessage}`).remove()
+        database().ref(`chatting/${user.uid}_${friendUid}/${messageSelect.date}/${messageSelect.idMessage}`).remove()
         .then(() => {
             const currentChatDate = messages[messages.length - 1];
             const lastChatBeforeDelete = currentChatDate.messages[currentChatDate.messages.length - 1];
             const lastChatAfterDelete = currentChatDate.messages[currentChatDate.messages.length - 2];
             if(lastChatAfterDelete) {
                 if(messageSelect.message === lastChatBeforeDelete.message) {
-                    firebase.database().ref(`history_chats/${user.uid}/${friendUid}`).set({
+                    database().ref(`history_chats/${user.uid}/${friendUid}`).set({
                         message: lastChatAfterDelete.message,
                         time: new Date().getTime(),
                         uid: friendUid,
                     })
                 }
             }else{
-                firebase.database().ref(`history_chats/${user.uid}/${friendUid}`).remove();
+                database().ref(`history_chats/${user.uid}/${friendUid}`).remove();
                 setMessages([]);
             }
             successMessage('Message deleted successfully');
@@ -115,8 +126,7 @@ const Chatting = ({navigation, route}) => {
                 <View style={styles.chatBody}>
                     <FlatList 
                         inverted={isInverted}
-                        style={styles.chatContent} 
-                        contentContainerStyle={{flexDirection: (isInverted ? 'column-reverse' : 'column')}}
+                        style={styles.chatContent}
                         data={messages}
                         renderItem={({item}) => _renderAllMessages(item)}
                         keyExtractor={(item, index) => index.toString()}

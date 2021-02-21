@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
 import { GoogleSignin, statusCodes } from '@react-native-community/google-signin';
 import { Text, View } from 'react-native';
+import database from '@react-native-firebase/database';
+import auth from '@react-native-firebase/auth';
 import { Icon } from '../../components';
 import { successMessage, errorMessage } from '../../utils';
-import { firebase, storeData } from '../../config';
+import { storeData } from '../../config';
 import { styles } from './styles';
 
 const GetStarted = ({navigation}) => {
@@ -16,9 +18,9 @@ const GetStarted = ({navigation}) => {
             const { idToken } = await GoogleSignin.signIn();
             
             // Create a Google credential with the token
-            const googleCredential = firebase.auth.GoogleAuthProvider.credential(idToken);
+            const googleCredential = auth.GoogleAuthProvider.credential(idToken);
             
-            firebase.auth().signInWithCredential(googleCredential)
+            auth().signInWithCredential(googleCredential)
             .then(async (response) => {
                 const data = {
                     uid: response.user.uid,
@@ -27,11 +29,11 @@ const GetStarted = ({navigation}) => {
                     photo: response.user.photoURL,
                     profession: 'No Profession',
                 }
-                firebase.database().ref(`users/${response.user.uid}`).once('value')
+                database().ref(`users/${response.user.uid}`).once('value')
                 .then((userResponse) => {
                     if(!userResponse.val()) {
                         storeData('user', data);
-                        firebase.database().ref(`users/${data.uid}`).set(data);
+                        database().ref(`users/${data.uid}`).set(data);
                     }else{
                         storeData('user', userResponse);
                     }

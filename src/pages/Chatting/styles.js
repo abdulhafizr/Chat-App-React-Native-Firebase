@@ -17,6 +17,9 @@ export const styles = StyleSheet.create({
     chatContent: {
         flex: 1,
     },
+    contentContainer: {
+        flexDirection: 'column-reverse'
+    },
     timestamp: {
         fontSize: 12,
         textAlign: 'center',

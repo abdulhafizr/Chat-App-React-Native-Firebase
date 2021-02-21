@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import { ScrollView, TouchableOpacity, View } from 'react-native';
+import database from '@react-native-firebase/database';
 import { HeaderProfile, Icon, Alert } from '../../components';
-import { firebase, getData } from '../../config';
+import { getData } from '../../config';
 import { addFriend, unFriend, errorMessage, successMessage } from '../../utils';
 import { styles } from './styles';
 
@@ -15,7 +16,7 @@ const DetailContact = ({navigation, route}) => {
     useEffect(() => {
         getData('user').then((currentUser) => {
             setUser(currentUser);
-            firebase.database().ref(`contacts/${currentUser.uid}/${contactUid}`).on('value', (snapshot) => {
+            database().ref(`contacts/${currentUser.uid}/${contactUid}`).on('value', (snapshot) => {
                 if(snapshot.val()) {
                     setIsFriend(true);
                 }
