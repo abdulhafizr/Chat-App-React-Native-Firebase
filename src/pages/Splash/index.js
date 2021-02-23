@@ -8,7 +8,7 @@ const Splash = ({navigation}) => {
     useEffect(() => {
         GoogleSignin.configure({
             webClientId: '226198834600-r314gdlmqa9o7vrcl9k2o9cf08mn53vs.apps.googleusercontent.com',
-            offlineAccess: false,
+            offlineAccess: true,
         })
         const unsubscribe = auth().onAuthStateChanged((user) => {
             setTimeout(() => {
